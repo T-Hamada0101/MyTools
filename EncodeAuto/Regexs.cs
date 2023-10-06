@@ -14,7 +14,10 @@ namespace EncodeAuto
             // Replace invalid characters with empty strings.
             try
             {
-                return Regex.Replace(strIn, @"[^\\w\\.@-]", "", RegexOptions.None, TimeSpan.FromSeconds(1.5));
+                //return Regex.Replace(strIn, @"[^\\w\\.@-]", "", RegexOptions.None, TimeSpan.FromSeconds(1.5));
+                return Regex.Replace(strIn, @"[^\\!/g]", "");
+                //@"[\u002F]"スラッシュ
+                //@"[\u005C]"バックスラッシュ
             }
             // If we timeout when replacing invalid characters,
             // we should return Empty.
@@ -23,6 +26,23 @@ namespace EncodeAuto
                 return String.Empty;
             }
         }
+
+        public static Dictionary<string, string> TrancerateUnicodeList(string input)
+        {
+            Dictionary<string, string> keyValues = new Dictionary<string, string>();
+            foreach (char c in input)
+            {
+                try
+                {
+                    keyValues.Add(c.ToString(), $"U+{((int)c).ToString("X4")}");
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+            return keyValues;
+        }
         /// <summary>
         /// 入力文字制限
         /// </summary>
@@ -30,10 +50,12 @@ namespace EncodeAuto
         /// <returns>バリデーション後の文字列</returns>
         public static string InputValueValidate(string inputString)
         {
+            Dictionary<string, string> keyValues = TrancerateUnicodeList(inputString);
             // 正規表現リストに基づき
             for (int i = 0; i < InputBlockRegexList.Count; i++)
             {
                 inputString = Regex.Replace(inputString, InputBlockRegexList[i], "");
+                //inputString = CleanInput(inputString);
             }
             return inputString;
         }
@@ -42,6 +64,7 @@ namespace EncodeAuto
         /// </summary>
         private static readonly List<string> InputBlockRegexList = new List<string>()
         {
+            "[\u2000-\u2FFF]",                // 多くの記号
             "[\u23F3]",                       // (HOURGLASS WITH FLOWING SAND)
             "[\u25FD-\u25FE]",                // (WHITE MEDIUM SMALL SQUAR)(BLACK MEDIUM SMALL SQUARE)
             "[\u2600-\u26FF]",                // その他の記号(Miscellaneous Symbols)
@@ -61,8 +84,11 @@ namespace EncodeAuto
             "[\u0A00-\u0A7F]",                // グルムキー文字(Gurmukhi)
             "[\uD800-\uDBFF][\uDC00-\uDFFF]", // サロゲートペア(Surrogates)
             "[\uE000-\uF8FF]",                // 私用領域(Private Use Area)
+            "[\u29F8]",                       // スラッシュ
+            "[\u0021]",                       // !
+            "[\u003F]",                       // ?
+            "[\u203C]",                       // ‼
+            "[\u2B50]",                       // ⭐
         };
-
-
     }
 }
