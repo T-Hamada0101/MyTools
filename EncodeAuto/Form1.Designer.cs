@@ -39,6 +39,7 @@
             textBox4 = new TextBox();
             label4 = new Label();
             checkBox1 = new CheckBox();
+            button2 = new Button();
             SuspendLayout();
             // 
             // textBox1
@@ -53,7 +54,7 @@
             label1.AutoSize = true;
             label1.Location = new Point(55, 17);
             label1.Name = "label1";
-            label1.Size = new Size(54, 20);
+            label1.Size = new Size(53, 20);
             label1.TabIndex = 1;
             label1.Text = "＊.BAT";
             // 
@@ -78,18 +79,18 @@
             listBox1.Dock = DockStyle.Bottom;
             listBox1.FormattingEnabled = true;
             listBox1.ItemHeight = 20;
-            listBox1.Location = new Point(0, 324);
+            listBox1.Location = new Point(0, 313);
             listBox1.Name = "listBox1";
-            listBox1.Size = new Size(1166, 324);
+            listBox1.Size = new Size(1166, 564);
             listBox1.TabIndex = 4;
             // 
             // button1
             // 
-            button1.Location = new Point(991, 41);
+            button1.Location = new Point(991, 248);
             button1.Name = "button1";
-            button1.Size = new Size(94, 29);
+            button1.Size = new Size(115, 29);
             button1.TabIndex = 5;
-            button1.Text = "button1";
+            button1.Text = "Start";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
@@ -105,7 +106,7 @@
             label3.AutoSize = true;
             label3.Location = new Point(57, 153);
             label3.Name = "label3";
-            label3.Size = new Size(41, 20);
+            label3.Size = new Size(40, 20);
             label3.TabIndex = 7;
             label3.Text = "Safix";
             // 
@@ -121,26 +122,37 @@
             label4.AutoSize = true;
             label4.Location = new Point(55, 222);
             label4.Name = "label4";
-            label4.Size = new Size(75, 20);
+            label4.Size = new Size(104, 20);
             label4.TabIndex = 9;
-            label4.Text = "OutputDir";
+            label4.Text = "EndodeOutDir";
             // 
             // checkBox1
             // 
             checkBox1.AutoSize = true;
             checkBox1.Location = new Point(720, 248);
             checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(208, 24);
+            checkBox1.Size = new Size(195, 24);
             checkBox1.TabIndex = 10;
-            checkBox1.Text = "処理済みファイルも移動する";
+            checkBox1.Text = "処理済みファイルを移動する";
             checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(991, 204);
+            button2.Name = "button2";
+            button2.Size = new Size(115, 29);
+            button2.TabIndex = 13;
+            button2.Text = "AddInputDir";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // Form1
             // 
             AllowDrop = true;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1166, 648);
+            ClientSize = new Size(1166, 877);
+            Controls.Add(button2);
             Controls.Add(checkBox1);
             Controls.Add(label4);
             Controls.Add(textBox4);
@@ -172,5 +184,6 @@
         private TextBox textBox4;
         private Label label4;
         private CheckBox checkBox1;
+        private Button button2;
     }
 }
