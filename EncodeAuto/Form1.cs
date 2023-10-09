@@ -26,6 +26,7 @@ namespace EncodeAuto
             textBox3.Text = Properties.Settings.Default.Safix;
             textBox4.Text = Properties.Settings.Default.OutputDir;
             checkBox1.Checked = Properties.Settings.Default.MoveComp;
+            checkBox2.Checked = Properties.Settings.Default.Pause;
         }
 
         #region D&DƒCƒxƒ“ƒg
@@ -109,6 +110,7 @@ namespace EncodeAuto
             Properties.Settings.Default.Safix = textBox3.Text;
             Properties.Settings.Default.OutputDir = textBox4.Text;
             Properties.Settings.Default.MoveComp = checkBox1.Checked;
+            Properties.Settings.Default.Pause = checkBox2.Checked;
             Properties.Settings.Default.Save();
         }
 
@@ -156,6 +158,16 @@ namespace EncodeAuto
         private void button4_Click(object sender, EventArgs e)
         {
             SaveSetting();
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Pause = checkBox2.Checked;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.MoveComp = checkBox1.Checked;
         }
     }
 }

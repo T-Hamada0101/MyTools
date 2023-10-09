@@ -114,14 +114,14 @@ namespace EncodeAuto
                 AppendTextToFile(batPath, arg, "UTF-8");
 
                 //ウエイト1秒
-                AppendTextToFile(batPath, @"timeout / t 1 / nobreak > nul", "UTF-8");
+                AppendTextToFile(batPath, @"timeout /t 1 /nobreak > nul", "UTF-8");
 
 
             }
             //ウエイト2秒
-            AppendTextToFile(batPath, @"timeout / t 2 / nobreak > nul", "UTF-8");
+            AppendTextToFile(batPath, @"timeout /t 2 /nobreak > nul", "UTF-8");
             //プロンプトを一時停止
-            //AppendTextToFile(batPath, "PAUSE", "UTF-8");
+            if (Properties.Settings.Default.Pause) { AppendTextToFile(batPath, "PAUSE", "UTF-8"); }
 
         }
 

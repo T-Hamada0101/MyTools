@@ -42,6 +42,7 @@
             button2 = new Button();
             button3 = new Button();
             button4 = new Button();
+            checkBox2 = new CheckBox();
             SuspendLayout();
             // 
             // textBox1
@@ -137,6 +138,7 @@
             checkBox1.TabIndex = 10;
             checkBox1.Text = "処理済み元ファイルを移動する";
             checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // button2
             // 
@@ -168,12 +170,24 @@
             button4.UseVisualStyleBackColor = true;
             button4.Click += button4_Click;
             // 
+            // checkBox2
+            // 
+            checkBox2.AutoSize = true;
+            checkBox2.Location = new Point(738, 198);
+            checkBox2.Name = "checkBox2";
+            checkBox2.Size = new Size(190, 24);
+            checkBox2.TabIndex = 16;
+            checkBox2.Text = "コマンドを処理後一時停止";
+            checkBox2.UseVisualStyleBackColor = true;
+            checkBox2.CheckedChanged += checkBox2_CheckedChanged;
+            // 
             // Form1
             // 
             AllowDrop = true;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1166, 877);
+            Controls.Add(checkBox2);
             Controls.Add(button4);
             Controls.Add(button3);
             Controls.Add(button2);
@@ -211,5 +225,6 @@
         private Button button2;
         private Button button3;
         private Button button4;
+        private CheckBox checkBox2;
     }
 }
