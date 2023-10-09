@@ -7,14 +7,36 @@ namespace yt_dlp_loader
 {
     public partial class Form1 : Form
     {
+        int waiteSec = 0;
+
+
         public Form1()
         {
             InitializeComponent();
             AddDropEvents();
             //this.TopMost = true;
-            yt_dlp_loader.Properties.Settings.Default.Reload();
+            LoadProperties();
+        }
+        private void LoadProperties()
+        {
+            Properties.Settings.Default.Reload();
             textBox1.Text = Properties.Settings.Default.ExePath;
             textBox2.Text = Properties.Settings.Default.UrlFilePath;
+            checkBox1.Checked = Properties.Settings.Default.IsOpenUrl;
+            textBox3.Text = Properties.Settings.Default.BrowserOpenTime.ToString();
+        }
+        public void SaveSetting()
+        {
+            Properties.Settings.Default.ExePath = textBox1.Text;
+            Properties.Settings.Default.UrlFilePath = textBox2.Text;
+            Properties.Settings.Default.IsOpenUrl = checkBox1.Checked;
+            if (!int.TryParse(textBox3.Text, out int n))
+            {
+                n = 0;
+            }
+            waiteSec = n;
+            Properties.Settings.Default.BrowserOpenTime = waiteSec;
+            Properties.Settings.Default.Save();
         }
 
         private void AddDropEvents()
@@ -105,7 +127,10 @@ namespace yt_dlp_loader
             string urlFilePath = textBox2.Text;
             SaveSetting();
             ClearFile(urlFilePath);
-
+            // ListBox1 ‚Ì Items ‚ð List<string> ‚É•ÏŠ·‚·‚é
+            List<string> urls = listBox1.Items.Cast<string>().ToList();
+            
+            //write urlFile
             foreach (string item in listBox1.Items)
             {
                 AppendTextToFile(urlFilePath, item);
@@ -114,15 +139,27 @@ namespace yt_dlp_loader
             //await RunCommandAsync("cmd.exe",exePath);
             //RunCommand("cmd.exe", exePath);
             RunCommand(exePath, null);
+            RunBrowser(urls);
             listBox1.Items.Clear();
         }
-
-        public void SaveSetting()
+        private void RunBrowser(List<string> urls)
         {
+            if (!checkBox1.Checked)return;
+            foreach (var url in urls)
+            {
+                Process p = OprnUrl(url);
+            }
             
-            Properties.Settings.Default.ExePath = textBox1.Text;
-            Properties.Settings.Default.UrlFilePath = textBox2.Text;
-            Properties.Settings.Default.Save();
+        }
+        private Process OprnUrl(string url)
+        {
+            ProcessStartInfo pi = new ProcessStartInfo()
+            {
+                FileName = url,
+                UseShellExecute = true,
+            };
+
+            return Process.Start(pi);
         }
 
         public void AppendTextToFile(string filePath, string text)
