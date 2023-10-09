@@ -40,6 +40,8 @@
             label4 = new Label();
             checkBox1 = new CheckBox();
             button2 = new Button();
+            button3 = new Button();
+            button4 = new Button();
             SuspendLayout();
             // 
             // textBox1
@@ -86,7 +88,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(991, 248);
+            button1.Location = new Point(1018, 248);
             button1.Name = "button1";
             button1.Size = new Size(115, 29);
             button1.TabIndex = 5;
@@ -114,7 +116,7 @@
             // 
             textBox4.Location = new Point(55, 245);
             textBox4.Name = "textBox4";
-            textBox4.Size = new Size(643, 27);
+            textBox4.Size = new Size(548, 27);
             textBox4.TabIndex = 8;
             // 
             // label4
@@ -129,16 +131,16 @@
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(720, 248);
+            checkBox1.Location = new Point(738, 164);
             checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(195, 24);
+            checkBox1.Size = new Size(210, 24);
             checkBox1.TabIndex = 10;
-            checkBox1.Text = "処理済みファイルを移動する";
+            checkBox1.Text = "処理済み元ファイルを移動する";
             checkBox1.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
-            button2.Location = new Point(991, 204);
+            button2.Location = new Point(1018, 106);
             button2.Name = "button2";
             button2.Size = new Size(115, 29);
             button2.TabIndex = 13;
@@ -146,12 +148,34 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
+            // button3
+            // 
+            button3.Location = new Point(609, 245);
+            button3.Name = "button3";
+            button3.Size = new Size(115, 29);
+            button3.TabIndex = 14;
+            button3.Text = "Open";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(1018, 193);
+            button4.Name = "button4";
+            button4.Size = new Size(115, 29);
+            button4.TabIndex = 15;
+            button4.Text = "Save";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
+            // 
             // Form1
             // 
             AllowDrop = true;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1166, 877);
+            Controls.Add(button4);
+            Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(checkBox1);
             Controls.Add(label4);
@@ -185,5 +209,7 @@
         private Label label4;
         private CheckBox checkBox1;
         private Button button2;
+        private Button button3;
+        private Button button4;
     }
 }

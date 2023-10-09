@@ -4,11 +4,48 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using HeyRed.Mime;//Nuget MimeTypesMap
+//
 namespace EncodeAuto
 {
     internal class FileUtils
     {
+        /// <summary>
+        /// 動画ファイルを判定
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        internal static bool IsMovieFile(string filePath)
+        {
+            //拡張子の取得:
+            string _ext = Path.GetExtension(filePath);
+            string _type = MimeTypesMap.GetMimeType(_ext);
+            bool isVideo = _type.StartsWith("video/");
+            return isVideo;
+        }
+        /// <summary>
+        /// Dirがなければ作成
+        /// </summary>
+        /// <param name="path"></param>
+        internal static void CleateDir(string path)
+        {
+            try
+            {
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                    //Console.WriteLine($"Directory created: {path}");
+                }
+                else
+                {
+                    //Console.WriteLine($"Directory already exists: {path}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error creating directory: {ex.Message}");
+            }
+        }
         /// <summary>
         /// フォルダ内も探索しすべてのファイルパスを返す
         /// </summary>
@@ -48,6 +85,45 @@ namespace EncodeAuto
             if (string.IsNullOrEmpty(path)) return false;
             return File.GetAttributes(path).HasFlag(FileAttributes.Directory);
         }
+        /// <summary>
+        /// ファイルサイズ比較
+        /// </summary>
+        /// <param name="org"></param>
+        /// <param name="after"></param>
+        /// <returns></returns>
+        internal static bool IsSmaller(string org, string after)
+        {
+            FileInfo fo = new FileInfo(org);
+            FileInfo fa = new FileInfo(after);
+            if (fo.Length > fa.Length) { return true; }
+            return false;
+        }
 
+        /// <summary>
+        /// 指定DirへMove(重複時は上書き)
+        /// </summary>
+        /// <param name="terget"></param>
+        /// <param name="outDir"></param>
+        /// <returns>orgFileの最終所在地</returns>
+        internal static string MoveDir(string terget, string outDir)
+        {
+            //ファイル名の取得:
+            string neme = Path.GetFileName(terget);
+            string outpath = outDir + @"\" + neme;
+            string result = outpath;
+            try
+            {
+                File.Move(terget, outpath, true);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine(terget);
+                Console.WriteLine(outpath);
+                result = terget;
+                //throw;
+            }
+            Thread.Sleep(100);
+            return result;
+        }
     }
 }

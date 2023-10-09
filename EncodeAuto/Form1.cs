@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace EncodeAuto
 {
@@ -87,8 +88,9 @@ namespace EncodeAuto
 
             //à¯êîï™Çí«â¡
             List<string> lists = FileUtils.GetAllFilePath(files);
-            foreach (string _file in lists) 
+            foreach (string _file in lists)
             {
+                if (!FileUtils.IsMovieFile(_file)) { continue; }
                 hashSet.Add(_file);
             }
 
@@ -99,10 +101,8 @@ namespace EncodeAuto
                 //listBox1.Items.AddRange(lists.ToArray());
             }
         }
-
-        private async void button1_Click(object sender, EventArgs e)
+        public void SaveSetting()
         {
-            //string exePath = textBox1.Text;
 
             Properties.Settings.Default.ExePath = textBox1.Text;
             Properties.Settings.Default.Arguments = textBox2.Text;
@@ -110,6 +110,12 @@ namespace EncodeAuto
             Properties.Settings.Default.OutputDir = textBox4.Text;
             Properties.Settings.Default.MoveComp = checkBox1.Checked;
             Properties.Settings.Default.Save();
+        }
+
+        private async void button1_Click(object sender, EventArgs e)
+        {
+            //string exePath = textBox1.Text;
+            SaveSetting();
 
             // ListBox1 ÇÃ Items Ç List<string> Ç…ïœä∑Ç∑ÇÈ
             List<string> list = listBox1.Items.Cast<string>().ToList();
@@ -133,6 +139,23 @@ namespace EncodeAuto
             Properties.Settings.Default.OutputDir = outDir;
             Properties.Settings.Default.Save();
             AddListboxItem(new string[] { outDir + @"\Input" });
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            string outDir = textBox4.Text;
+            Properties.Settings.Default.OutputDir = outDir;
+            Properties.Settings.Default.Save();
+            FileUtils.CleateDir(outDir);
+            if (Directory.Exists(outDir))
+            {
+                System.Diagnostics.Process.Start("EXPLORER.EXE", outDir);
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            SaveSetting();
         }
     }
 }
