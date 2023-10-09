@@ -1,4 +1,4 @@
-﻿namespace EncodeAuto
+﻿namespace yt_dlp_loader
 {
     partial class Form1
     {
@@ -34,6 +34,10 @@
             label2 = new Label();
             listBox1 = new ListBox();
             button1 = new Button();
+            checkBox1 = new CheckBox();
+            textBox3 = new TextBox();
+            label3 = new Label();
+            button2 = new Button();
             SuspendLayout();
             // 
             // textBox1
@@ -72,9 +76,9 @@
             // 
             listBox1.FormattingEnabled = true;
             listBox1.ItemHeight = 20;
-            listBox1.Location = new Point(57, 164);
+            listBox1.Location = new Point(57, 209);
             listBox1.Name = "listBox1";
-            listBox1.Size = new Size(1097, 184);
+            listBox1.Size = new Size(1097, 284);
             listBox1.TabIndex = 4;
             // 
             // button1
@@ -83,16 +87,56 @@
             button1.Name = "button1";
             button1.Size = new Size(94, 29);
             button1.TabIndex = 5;
-            button1.Text = "button1";
+            button1.Text = "Start";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(55, 161);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(190, 24);
+            checkBox1.TabIndex = 6;
+            checkBox1.Text = "URLを既定のブラウザで開く";
+            checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // textBox3
+            // 
+            textBox3.Location = new Point(368, 159);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(108, 27);
+            textBox3.TabIndex = 7;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(251, 162);
+            label3.Name = "label3";
+            label3.Size = new Size(111, 20);
+            label3.TabIndex = 8;
+            label3.Text = "閉じるまでの秒数";
+            // 
+            // button2
+            // 
+            button2.Location = new Point(854, 162);
+            button2.Name = "button2";
+            button2.Size = new Size(94, 29);
+            button2.TabIndex = 9;
+            button2.Text = "Save";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // Form1
             // 
             AllowDrop = true;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1166, 372);
+            ClientSize = new Size(1166, 518);
+            Controls.Add(button2);
+            Controls.Add(label3);
+            Controls.Add(textBox3);
+            Controls.Add(checkBox1);
             Controls.Add(button1);
             Controls.Add(listBox1);
             Controls.Add(label2);
@@ -113,5 +157,9 @@
         private Label label2;
         private ListBox listBox1;
         private Button button1;
+        private CheckBox checkBox1;
+        private TextBox textBox3;
+        private Label label3;
+        private Button button2;
     }
 }

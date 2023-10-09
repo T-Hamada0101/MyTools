@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace EncodeAuto
+namespace yt_dlp_loader
 {
     public partial class Form1 : Form
     {
@@ -12,7 +12,7 @@ namespace EncodeAuto
             InitializeComponent();
             AddDropEvents();
             //this.TopMost = true;
-            Properties.Settings.Default.Reload();
+            yt_dlp_loader.Properties.Settings.Default.Reload();
             textBox1.Text = Properties.Settings.Default.ExePath;
             textBox2.Text = Properties.Settings.Default.UrlFilePath;
         }
@@ -103,9 +103,7 @@ namespace EncodeAuto
         {
             string exePath = textBox1.Text;
             string urlFilePath = textBox2.Text;
-            Properties.Settings.Default.ExePath = textBox1.Text;
-            Properties.Settings.Default.UrlFilePath = textBox2.Text;
-            Properties.Settings.Default.Save();
+            SaveSetting();
             ClearFile(urlFilePath);
 
             foreach (string item in listBox1.Items)
@@ -115,8 +113,16 @@ namespace EncodeAuto
 
             //await RunCommandAsync("cmd.exe",exePath);
             //RunCommand("cmd.exe", exePath);
-            RunCommand(exePath,null);
+            RunCommand(exePath, null);
             listBox1.Items.Clear();
+        }
+
+        public void SaveSetting()
+        {
+            
+            Properties.Settings.Default.ExePath = textBox1.Text;
+            Properties.Settings.Default.UrlFilePath = textBox2.Text;
+            Properties.Settings.Default.Save();
         }
 
         public void AppendTextToFile(string filePath, string text)
@@ -130,6 +136,11 @@ namespace EncodeAuto
         public void ClearFile(string filePath)
         {
             File.WriteAllText(filePath, string.Empty);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            SaveSetting();
         }
     }
 }

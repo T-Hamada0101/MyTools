@@ -1,4 +1,4 @@
-namespace EncodeAuto
+namespace yt_dlp_loader
 {
     internal static class Program
     {
