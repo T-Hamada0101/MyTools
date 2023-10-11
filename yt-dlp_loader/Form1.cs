@@ -1,6 +1,8 @@
 using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
+using yt_dlp_loader.Properties;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace yt_dlp_loader
@@ -24,17 +26,24 @@ namespace yt_dlp_loader
             textBox2.Text = Properties.Settings.Default.UrlFilePath;
             checkBox1.Checked = Properties.Settings.Default.IsOpenUrl;
             textBox3.Text = Properties.Settings.Default.BrowserOpenTime.ToString();
+            numericUpDown1.Value = Properties.Settings.Default.DLThreads;
         }
         public void SaveSetting()
         {
             Properties.Settings.Default.ExePath = textBox1.Text;
             Properties.Settings.Default.UrlFilePath = textBox2.Text;
             Properties.Settings.Default.IsOpenUrl = checkBox1.Checked;
-            if (!int.TryParse(textBox3.Text, out int n))
+
+            int threads = (int)numericUpDown1.Value;
+            if (threads < 0) threads = 1;
+            Properties.Settings.Default.DLThreads = threads;
+
+            if (!int.TryParse(textBox3.Text, out int w))
             {
-                n = 0;
+                w = 0;
             }
-            waiteSec = n;
+            waiteSec = w;
+
             Properties.Settings.Default.BrowserOpenTime = waiteSec;
             Properties.Settings.Default.Save();
         }
@@ -126,30 +135,48 @@ namespace yt_dlp_loader
             string exePath = textBox1.Text;
             string urlFilePath = textBox2.Text;
             SaveSetting();
-            ClearFile(urlFilePath);
             // ListBox1 ‚Ì Items ‚ð List<string> ‚É•ÏŠ·‚·‚é
             List<string> urls = listBox1.Items.Cast<string>().ToList();
-            
-            //write urlFile
-            foreach (string item in listBox1.Items)
-            {
-                AppendTextToFile(urlFilePath, item);
-            }
+            WriteUrlFile(urlFilePath, urls);
 
+            int thred = Properties.Settings.Default.DLThreads;
+            WriteConfigFile(thred);
             //await RunCommandAsync("cmd.exe",exePath);
             //RunCommand("cmd.exe", exePath);
             RunCommand(exePath, null);
             RunBrowser(urls);
             listBox1.Items.Clear();
         }
+
+        private void WriteUrlFile(string urlFilePath, List<string> urls)
+        {
+            ClearFile(urlFilePath);
+            //write urlFile
+            foreach (string item in urls)
+            {
+                AppendTextToFile(urlFilePath, item);
+            }
+        }
+        private void WriteConfigFile(int thred)
+        {
+            string configFilePath = Properties.Settings.Default.ExePath.Replace("yt-dlp.exe", "yt-dlp.conf");
+            ClearFile(configFilePath);
+            //write urlFile
+            AppendTextToFile(configFilePath, @"-o ""D:\WD12share\_Youtube\%(title)s.%(ext)s""");
+            AppendTextToFile(configFilePath, @"- N " + thred.ToString());
+            AppendTextToFile(configFilePath, @"--no-mtime");
+            AppendTextToFile(configFilePath, @"--console-title");
+            AppendTextToFile(configFilePath, @"--cookies-from-browser firefox");
+            AppendTextToFile(configFilePath, @"-a ""D:\WD12share\_yt-dlp_url.txt""");
+        }
         private void RunBrowser(List<string> urls)
         {
-            if (!checkBox1.Checked)return;
+            if (!checkBox1.Checked) return;
             foreach (var url in urls)
             {
                 Process p = OprnUrl(url);
             }
-            
+
         }
         private Process OprnUrl(string url)
         {
@@ -178,6 +205,16 @@ namespace yt_dlp_loader
         private void button2_Click(object sender, EventArgs e)
         {
             SaveSetting();
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("EXPLORER.EXE", @"D:\WD12share\_Youtube");
         }
     }
 }

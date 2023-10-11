@@ -38,6 +38,10 @@
             textBox3 = new TextBox();
             label3 = new Label();
             button2 = new Button();
+            numericUpDown1 = new NumericUpDown();
+            label4 = new Label();
+            button3 = new Button();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
             // 
             // textBox1
@@ -85,7 +89,7 @@
             // 
             button1.Location = new Point(991, 41);
             button1.Name = "button1";
-            button1.Size = new Size(94, 29);
+            button1.Size = new Size(140, 29);
             button1.TabIndex = 5;
             button1.Text = "Start";
             button1.UseVisualStyleBackColor = true;
@@ -127,12 +131,42 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
+            // numericUpDown1
+            // 
+            numericUpDown1.Location = new Point(748, 164);
+            numericUpDown1.Name = "numericUpDown1";
+            numericUpDown1.Size = new Size(63, 27);
+            numericUpDown1.TabIndex = 10;
+            numericUpDown1.ValueChanged += numericUpDown1_ValueChanged;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(648, 166);
+            label4.Name = "label4";
+            label4.Size = new Size(85, 20);
+            label4.TabIndex = 11;
+            label4.Text = "DLスレッド数";
+            // 
+            // button3
+            // 
+            button3.Location = new Point(991, 162);
+            button3.Name = "button3";
+            button3.Size = new Size(140, 29);
+            button3.TabIndex = 12;
+            button3.Text = "Show Folder";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
             // Form1
             // 
             AllowDrop = true;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1166, 518);
+            Controls.Add(button3);
+            Controls.Add(label4);
+            Controls.Add(numericUpDown1);
             Controls.Add(button2);
             Controls.Add(label3);
             Controls.Add(textBox3);
@@ -145,6 +179,7 @@
             Controls.Add(textBox1);
             Name = "Form1";
             Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -161,5 +196,8 @@
         private TextBox textBox3;
         private Label label3;
         private Button button2;
+        private NumericUpDown numericUpDown1;
+        private Label label4;
+        private Button button3;
     }
 }

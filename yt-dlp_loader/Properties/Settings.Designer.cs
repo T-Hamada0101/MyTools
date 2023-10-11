@@ -70,5 +70,17 @@ namespace yt_dlp_loader.Properties {
                 this["BrowserOpenTime"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("6")]
+        public int DLThreads {
+            get {
+                return ((int)(this["DLThreads"]));
+            }
+            set {
+                this["DLThreads"] = value;
+            }
+        }
     }
 }
