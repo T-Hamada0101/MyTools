@@ -95,5 +95,17 @@ namespace EncodeAuto.Properties {
                 this["Pause"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int ActiveRedioBox {
+            get {
+                return ((int)(this["ActiveRedioBox"]));
+            }
+            set {
+                this["ActiveRedioBox"] = value;
+            }
+        }
     }
 }

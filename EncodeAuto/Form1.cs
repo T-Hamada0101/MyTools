@@ -3,31 +3,60 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using System.IO;
+using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
+using RadioButton = System.Windows.Forms.RadioButton;
 
 namespace EncodeAuto
 {
     public partial class Form1 : Form
     {
 
+        PresetClass preset;
+        List<RadioButton> radioButtons = new List<RadioButton>();
 
         public Form1()
         {
             InitializeComponent();
             AddDropEvents();
-            //this.TopMost = true;
-            Properties.Settings.Default.Reload();
-            textBox1.Text = Properties.Settings.Default.ExePath;
-            textBox2.Text = Properties.Settings.Default.Arguments;
-            textBox3.Text = Properties.Settings.Default.Safix;
-            textBox4.Text = Properties.Settings.Default.OutputDir;
-            checkBox1.Checked = Properties.Settings.Default.MoveComp;
-            checkBox2.Checked = Properties.Settings.Default.Pause;
+
+            radioButtons.Add(radioButton1);
+            radioButtons.Add(radioButton2);
+            radioButtons.Add(radioButton3);
+            radioButtons.Add(radioButton4);
+            
+            preset = XmlSerialize.Load();
+            if (preset is null)
+            {
+                preset = new PresetClass();
+                Properties.Settings.Default.Reload();
+                BatPath.Text = Properties.Settings.Default.ExePath;
+                Arguments.Text = Properties.Settings.Default.Arguments;
+                Safix.Text = Properties.Settings.Default.Safix;
+                Dir.Text = Properties.Settings.Default.OutputDir;
+                MoveComp.Checked = Properties.Settings.Default.MoveComp;
+                PauseCMD.Checked = Properties.Settings.Default.Pause;
+                PresetName.Text = "default";
+                SetPreset(0);
+            }
+
+            for (int i = 0; i < radioButtons.Count; i++)
+            {
+                string? name = preset.presetName[i];
+                if (name != null)
+                {
+                    radioButtons[i].Text = preset.presetName[i].ToString();
+                }
+            }
+            radioButtons[Properties.Settings.Default.ActiveRedioBox].Checked = true;
         }
+
 
         #region D&Dイベント
         private void AddDropEvents()
@@ -104,20 +133,57 @@ namespace EncodeAuto
         }
         public void SaveSetting()
         {
-
-            Properties.Settings.Default.ExePath = textBox1.Text;
-            Properties.Settings.Default.Arguments = textBox2.Text;
-            Properties.Settings.Default.Safix = textBox3.Text;
-            Properties.Settings.Default.OutputDir = textBox4.Text;
-            Properties.Settings.Default.MoveComp = checkBox1.Checked;
-            Properties.Settings.Default.Pause = checkBox2.Checked;
+            Properties.Settings.Default.ExePath = BatPath.Text;
+            Properties.Settings.Default.Arguments = Arguments.Text;
+            Properties.Settings.Default.Safix = Safix.Text;
+            Properties.Settings.Default.OutputDir = Dir.Text;
+            Properties.Settings.Default.MoveComp = MoveComp.Checked;
+            Properties.Settings.Default.Pause = PauseCMD.Checked;
             Properties.Settings.Default.Save();
+            Properties.Settings.Default.ActiveRedioBox = SelectedRadioButton();
+            SetPreset(SelectedRadioButton());
+            XmlSerialize.Save(preset);
+        }
+        internal void SetPreset(int index)
+        {
+            radioButtons[index].Text = PresetName.Text;
+            preset.presetName[index] = PresetName.Text;
+            preset.batPath[index] = BatPath.Text;
+            preset.argment[index] = Arguments.Text;
+            preset.safix[index] = Safix.Text;
+            preset.outDir[index] = Dir.Text;
+            preset.afterMove[index] = MoveComp.Checked;
+            preset.pauseCMD[index] = PauseCMD.Checked;
+        }
+        internal void LoadPreset(int index)
+        {
+            radioButtons[index].Text = preset.presetName[index];
+            PresetName.Text = preset.presetName[index];
+            BatPath.Text = preset.batPath[index];
+            Arguments.Text  = preset.argment[index];
+            Safix.Text = preset.safix[index];
+            Dir.Text = preset.outDir[index];
+            MoveComp.Checked = preset.afterMove[index];
+            PauseCMD.Checked = preset.pauseCMD[index];
         }
 
+        private int SelectedRadioButton()
+        {
+            int index = 0;
+            for (int i = 0; i < radioButtons.Count; i++)
+            {
+                RadioButton rb = radioButtons[i];
+                if (rb.Checked)
+                {
+                    index = i; break;
+                }
+            }
+            return index;
+        }
         private async void button1_Click(object sender, EventArgs e)
         {
             //string exePath = textBox1.Text;
-            SaveSetting();
+            //SaveSetting();
 
             // ListBox1 の Items を List<string> に変換する
             List<string> list = listBox1.Items.Cast<string>().ToList();
@@ -137,7 +203,7 @@ namespace EncodeAuto
         /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
-            string outDir = textBox4.Text;
+            string outDir = Dir.Text;
             Properties.Settings.Default.OutputDir = outDir;
             Properties.Settings.Default.Save();
             AddListboxItem(new string[] { outDir + @"\Input" });
@@ -145,7 +211,7 @@ namespace EncodeAuto
 
         private void button3_Click(object sender, EventArgs e)
         {
-            string outDir = textBox4.Text;
+            string outDir = Dir.Text;
             Properties.Settings.Default.OutputDir = outDir;
             Properties.Settings.Default.Save();
             FileUtils.CleateDir(outDir);
@@ -162,12 +228,51 @@ namespace EncodeAuto
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.Pause = checkBox2.Checked;
+            Properties.Settings.Default.Pause = PauseCMD.Checked;
+            int index = SelectedRadioButton();
+            preset.pauseCMD[index] = PauseCMD.Checked;
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.MoveComp = checkBox1.Checked;
+            Properties.Settings.Default.MoveComp = MoveComp.Checked;
+            int index = SelectedRadioButton();
+            preset.afterMove[index] = MoveComp.Checked;
+        }
+        /// <summary>
+        /// ラジオボタン排他制御
+        /// </summary>
+        /// <param name="index"></param>
+        private void radioButtonChecked(int index)
+        {
+            if (radioButtons[index].Checked)
+            {
+                LoadPreset(index);
+            }
+            else
+            {
+                SetPreset(index);
+            }
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            radioButtonChecked(0);
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            radioButtonChecked(1);
+        }
+
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+            radioButtonChecked(2);
+        }
+
+        private void radioButton4_CheckedChanged(object sender, EventArgs e)
+        {
+            radioButtonChecked(3);
         }
     }
 }

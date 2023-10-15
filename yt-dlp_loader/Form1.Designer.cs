@@ -80,9 +80,9 @@
             // 
             listBox1.FormattingEnabled = true;
             listBox1.ItemHeight = 20;
-            listBox1.Location = new Point(57, 209);
+            listBox1.Location = new Point(12, 209);
             listBox1.Name = "listBox1";
-            listBox1.Size = new Size(1097, 284);
+            listBox1.Size = new Size(1142, 284);
             listBox1.TabIndex = 4;
             // 
             // button1
@@ -123,7 +123,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(854, 162);
+            button2.Location = new Point(694, 158);
             button2.Name = "button2";
             button2.Size = new Size(94, 29);
             button2.TabIndex = 9;
@@ -133,7 +133,7 @@
             // 
             // numericUpDown1
             // 
-            numericUpDown1.Location = new Point(748, 164);
+            numericUpDown1.Location = new Point(588, 160);
             numericUpDown1.Name = "numericUpDown1";
             numericUpDown1.Size = new Size(63, 27);
             numericUpDown1.TabIndex = 10;
@@ -142,7 +142,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(648, 166);
+            label4.Location = new Point(488, 162);
             label4.Name = "label4";
             label4.Size = new Size(85, 20);
             label4.TabIndex = 11;
@@ -150,7 +150,7 @@
             // 
             // button3
             // 
-            button3.Location = new Point(991, 162);
+            button3.Location = new Point(808, 158);
             button3.Name = "button3";
             button3.Size = new Size(140, 29);
             button3.TabIndex = 12;
