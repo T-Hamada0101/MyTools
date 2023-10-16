@@ -44,6 +44,10 @@
             button4 = new Button();
             PauseCMD = new CheckBox();
             groupBox1 = new GroupBox();
+            radioButton5 = new RadioButton();
+            radioButton6 = new RadioButton();
+            radioButton7 = new RadioButton();
+            radioButton8 = new RadioButton();
             radioButton4 = new RadioButton();
             radioButton3 = new RadioButton();
             radioButton2 = new RadioButton();
@@ -191,6 +195,10 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(radioButton5);
+            groupBox1.Controls.Add(radioButton6);
+            groupBox1.Controls.Add(radioButton7);
+            groupBox1.Controls.Add(radioButton8);
             groupBox1.Controls.Add(radioButton4);
             groupBox1.Controls.Add(radioButton3);
             groupBox1.Controls.Add(radioButton2);
@@ -201,6 +209,54 @@
             groupBox1.TabIndex = 17;
             groupBox1.TabStop = false;
             groupBox1.Text = "Preset";
+            // 
+            // radioButton5
+            // 
+            radioButton5.AutoSize = true;
+            radioButton5.Location = new Point(128, 34);
+            radioButton5.Name = "radioButton5";
+            radioButton5.Size = new Size(38, 24);
+            radioButton5.TabIndex = 23;
+            radioButton5.TabStop = true;
+            radioButton5.Text = "5";
+            radioButton5.UseVisualStyleBackColor = true;
+            radioButton5.CheckedChanged += radioButton5_CheckedChanged;
+            // 
+            // radioButton6
+            // 
+            radioButton6.AutoSize = true;
+            radioButton6.Location = new Point(128, 63);
+            radioButton6.Name = "radioButton6";
+            radioButton6.Size = new Size(38, 24);
+            radioButton6.TabIndex = 22;
+            radioButton6.TabStop = true;
+            radioButton6.Text = "6";
+            radioButton6.UseVisualStyleBackColor = true;
+            radioButton6.CheckedChanged += radioButton6_CheckedChanged;
+            // 
+            // radioButton7
+            // 
+            radioButton7.AutoSize = true;
+            radioButton7.Location = new Point(128, 91);
+            radioButton7.Name = "radioButton7";
+            radioButton7.Size = new Size(38, 24);
+            radioButton7.TabIndex = 21;
+            radioButton7.TabStop = true;
+            radioButton7.Text = "7";
+            radioButton7.UseVisualStyleBackColor = true;
+            radioButton7.CheckedChanged += radioButton7_CheckedChanged;
+            // 
+            // radioButton8
+            // 
+            radioButton8.AutoSize = true;
+            radioButton8.Location = new Point(128, 121);
+            radioButton8.Name = "radioButton8";
+            radioButton8.Size = new Size(38, 24);
+            radioButton8.TabIndex = 20;
+            radioButton8.TabStop = true;
+            radioButton8.Text = "8";
+            radioButton8.UseVisualStyleBackColor = true;
+            radioButton8.CheckedChanged += radioButton8_CheckedChanged;
             // 
             // radioButton4
             // 
@@ -323,5 +379,9 @@
         private RadioButton radioButton1;
         private Label label5;
         private TextBox PresetName;
+        private RadioButton radioButton5;
+        private RadioButton radioButton6;
+        private RadioButton radioButton7;
+        private RadioButton radioButton8;
     }
 }
