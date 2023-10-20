@@ -23,6 +23,57 @@ namespace EncodeAuto
             bool isVideo = _type.StartsWith("video/");
             return isVideo;
         }
+
+        // find all imagesin a directory
+        internal static List<string> GetImages(string dir)
+        {
+            List<string> result = new List<string>();
+            string[] files = Directory.GetFiles(dir);
+            foreach (string file in files)
+            {
+                if (IsImageFile(file))
+                {
+                    result.Add(file);
+                }
+            }
+            return result;
+        }
+
+        static bool IsImageFile(string filePath)
+        {
+            //拡張子の取得:
+            string _ext = Path.GetExtension(filePath);
+            string _type = MimeTypesMap.GetMimeType(_ext);
+            bool isImage = _type.StartsWith("image/");
+            return isImage;
+        }
+
+        //find all movies in a directory
+        internal static List<string> GetMovies(string dir)
+        {
+            List<string> result = new List<string>();
+            string[] files = Directory.GetFiles(dir);
+            foreach (string file in files)
+            {
+                if (IsMovieFile(file))
+                {
+                    result.Add(file);
+                }
+            }
+            return result;
+        }
+
+        internal void OpenFile(string filePath)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(filePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
         /// <summary>
         /// Dirがなければ作成
         /// </summary>
