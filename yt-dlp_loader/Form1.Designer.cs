@@ -41,6 +41,7 @@
             numericUpDown1 = new NumericUpDown();
             label4 = new Label();
             button3 = new Button();
+            checkBox2 = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
             // 
@@ -64,7 +65,7 @@
             // 
             textBox2.Location = new Point(55, 110);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(893, 27);
+            textBox2.Size = new Size(668, 27);
             textBox2.TabIndex = 2;
             // 
             // label2
@@ -158,12 +159,23 @@
             button3.UseVisualStyleBackColor = true;
             button3.Click += button3_Click;
             // 
+            // checkBox2
+            // 
+            checkBox2.AutoSize = true;
+            checkBox2.Location = new Point(746, 113);
+            checkBox2.Name = "checkBox2";
+            checkBox2.Size = new Size(172, 24);
+            checkBox2.TabIndex = 13;
+            checkBox2.Text = "DLファイル名にidを付加";
+            checkBox2.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AllowDrop = true;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1166, 518);
+            Controls.Add(checkBox2);
             Controls.Add(button3);
             Controls.Add(label4);
             Controls.Add(numericUpDown1);
@@ -199,5 +211,6 @@
         private NumericUpDown numericUpDown1;
         private Label label4;
         private Button button3;
+        private CheckBox checkBox2;
     }
 }
