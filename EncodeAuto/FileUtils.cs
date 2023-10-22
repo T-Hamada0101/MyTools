@@ -158,10 +158,12 @@ namespace EncodeAuto
         /// <returns>orgFileの最終所在地</returns>
         internal static string MoveDir(string terget, string outDir)
         {
+            if(terget == outDir) { return terget; }
             //ファイル名の取得:
             string neme = Path.GetFileName(terget);
             string outpath = outDir + @"\" + neme;
             string result = outpath;
+            if (terget == outpath) { return terget; }
             try
             {
                 File.Move(terget, outpath, true);

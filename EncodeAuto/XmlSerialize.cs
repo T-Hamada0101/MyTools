@@ -10,13 +10,14 @@ namespace EncodeAuto
     //XMLファイルに保存するオブジェクトのためのクラス
     public class PresetClass
     {
-        public string[] presetName = new string[8];
-        public string[] batPath = new string[8];
-        public string[] argment = new string[8];
-        public string[] safix = new string[8];
-        public string[] outDir = new string[8];
-        public bool[] afterMove = new bool[8];
-        public bool[] pauseCMD = new bool[8];
+        public string[] presetName = new string[12];
+        public string[] batPath = new string[12];
+        public string[] argment = new string[12];
+        public string[] safix = new string[12];
+        public string[] outDir = new string[12];
+        public bool[] afterOriginMove = new bool[12];
+        public bool[] pauseCMD = new bool[12];
+        public bool[] sameDirOutput = new bool[12];
     }
     internal class XmlSerialize
     {

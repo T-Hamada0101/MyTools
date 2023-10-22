@@ -107,5 +107,17 @@ namespace EncodeAuto.Properties {
                 this["ActiveRedioBox"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SameDirOutput {
+            get {
+                return ((bool)(this["SameDirOutput"]));
+            }
+            set {
+                this["SameDirOutput"] = value;
+            }
+        }
     }
 }

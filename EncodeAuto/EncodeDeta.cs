@@ -37,7 +37,8 @@ namespace EncodeAuto
         public string bat2Path = "";
         public string arguments = "";
         public string safix = "";
-        public bool isMove = false;
+        public bool isENcodeSameDir = false;
+        public bool isMoveOrg = false;
         public string baseDir = "";
         public string CompressedOutDir = "";
         public string FatCompressedOut = "";
@@ -50,8 +51,10 @@ namespace EncodeAuto
             batPath = Properties.Settings.Default.ExePath;
             arguments = Properties.Settings.Default.Arguments;
             safix = Properties.Settings.Default.Safix;
-            isMove = Properties.Settings.Default.MoveComp;
+            isENcodeSameDir = Properties.Settings.Default.SameDirOutput;
+            isMoveOrg = Properties.Settings.Default.MoveComp;
             baseDir = Properties.Settings.Default.OutputDir;
+
             bat2Path = batPath.Replace(".bat", "2.bat");
             inputDir = baseDir + @"\Input";
             finishedOriginalDir = baseDir + @"\FinishedOriginal";
@@ -71,7 +74,6 @@ namespace EncodeAuto
 
         private void WriteBatFile(List<string> _list,bool renameEmoji,bool ErrorOutOn)
         {
-
             AppendTextToFile(batPath, @"chcp 65001", "UTF-8");//chcp 65001
             AppendTextToFile(batPath, @"cd /d %~dp0", "UTF-8");
 
@@ -90,13 +92,30 @@ namespace EncodeAuto
 
                 //拡張子なしのファイル名の取得:
                 string _noExt = Path.GetFileNameWithoutExtension(after);
+
+                //出力先分岐
+                string? outDir;
+                if (isENcodeSameDir)
+                {
+                    outDir = Path.GetDirectoryName(after);
+                    //nullの場合はbaseDir
+                    if (outDir is null)
+                    {
+                        outDir = baseDir;
+                    }
+                }
+                else
+                {
+                    outDir = baseDir;
+                }
+
                 //エンコード後のファイル名
-                string encoded = baseDir + @"\" + _noExt + safix;
+                string encoded = outDir + @"\" + _noExt + safix;
                 int n = 0;
                 while (File.Exists(encoded)) 
                 {
                     n++;
-                    encoded = baseDir + @"\" + _noExt + "_" + n.ToString() + safix;
+                    encoded = outDir + @"\" + _noExt + "_" + n.ToString() + safix;
                 } 
                 
                 //出世魚の名前保存
@@ -201,43 +220,50 @@ namespace EncodeAuto
                 string finalOrgLocation = org;
                 bool IsError = false;
                 //元ファイルの最終移動先
-                string disteny = "";
+                string distenyOrg = org;
+
                 if (File.Exists(encord))
                 {
-                    //エンコード後のファイルがあれば処理済みフォルダへ
-                    disteny = finishedOriginalDir;
-                    //圧縮効果ありの場合は
-                    if (IsSizeCompressed(org, encord))
+                    //エンコード後のファイルがあれば元ファイルを処理済みフォルダへ
+                    distenyOrg = finishedOriginalDir;
+
+                    //圧縮後ファイルの移動
+                    if (!isENcodeSameDir)
                     {
-                        //エンコード後のファイルを圧縮完了フォルダへ
-                        MoveDir(encord, CompressedOutDir);
-                    }
-                    else
-                    {
-                        //エンコード後のファイルを肥大圧縮完了フォルダへ
-                        MoveDir(encord, FatCompressedOut);
+                        //圧縮効果ありの場合は
+                        if (IsSizeCompressed(org, encord))
+                        {
+                            //エンコード後のファイルを圧縮完了フォルダへ
+                            MoveDir(encord, CompressedOutDir);
+                        }
+                        else
+                        {
+                            //エンコード後のファイルを肥大圧縮完了フォルダへ
+                            MoveDir(encord, FatCompressedOut);
+                        }
                     }
                 }
                 else
                 {
                     IsError = true;
-                    if (isMove)
+                    if (isMoveOrg)
                     {
-                        //失敗の場合はエラーフォルダへ
-                        disteny = errorDir;
+                        //失敗の場合は元ファイルをエラーフォルダへ
+                        distenyOrg = errorDir;
                     }
                     else
                     {
-                        disteny = org;
+                        distenyOrg = org;
                     }
                     
                 }
-                //元ファイルの最終
-                if (isMove)
+                //元ファイルの移動処理
+                if (isMoveOrg)
                 {
-                    finalOrgLocation =MoveDir(org, disteny);
+                    finalOrgLocation =MoveDir(org, distenyOrg);
                 }
 
+                //エラーの場合はエラーリストへ追加
                 if (IsError)
                 {
                     ErrorOrgFiles.Add(finalOrgLocation);

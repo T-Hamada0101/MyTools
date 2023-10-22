@@ -34,18 +34,53 @@ namespace EncodeAuto
             radioButtons.Add(radioButton6);
             radioButtons.Add(radioButton7);
             radioButtons.Add(radioButton8);
+            radioButtons.Add(radioButton9);
+            radioButtons.Add(radioButton10);
+            radioButtons.Add(radioButton11);
+            radioButtons.Add(radioButton12);
 
             preset = XmlSerialize.Load();
-            if (preset is null)
+
+
+            if (preset != null)
             {
+                //フォームのプリセットを増やした直後に起動した場合に配列の長さが足りないので増やす
+                if (radioButtons.Count > preset.presetName.Length)
+                {
+                    PresetClass tmp = new PresetClass();
+                    tmp.presetName = new string[radioButtons.Count];
+                    tmp.batPath = new string[radioButtons.Count];
+                    tmp.argment = new string[radioButtons.Count];
+                    tmp.safix = new string[radioButtons.Count];
+                    tmp.outDir = new string[radioButtons.Count];
+                    tmp.afterOriginMove = new bool[radioButtons.Count];
+                    tmp.pauseCMD = new bool[radioButtons.Count];
+                    tmp.sameDirOutput = new bool[radioButtons.Count];
+                    for (int i = 0; i < preset.presetName.Length; i++)
+                    {
+                        tmp.presetName[i] = preset.presetName[i];
+                        tmp.batPath[i] = preset.batPath[i];
+                        tmp.argment[i] = preset.argment[i];
+                        tmp.safix[i] = preset.safix[i];
+                        tmp.outDir[i] = preset.outDir[i];
+                        tmp.afterOriginMove[i] = preset.afterOriginMove[i];
+                        tmp.pauseCMD[i] = preset.pauseCMD[i];
+                        tmp.sameDirOutput[i] = preset.sameDirOutput[i];
+                    }
+                    preset = tmp;
+                }
+            }
+            else
+            {   //初回起動時
                 preset = new PresetClass();
                 Properties.Settings.Default.Reload();
                 BatPath.Text = Properties.Settings.Default.ExePath;
                 Arguments.Text = Properties.Settings.Default.Arguments;
                 Safix.Text = Properties.Settings.Default.Safix;
                 Dir.Text = Properties.Settings.Default.OutputDir;
-                MoveComp.Checked = Properties.Settings.Default.MoveComp;
-                PauseCMD.Checked = Properties.Settings.Default.Pause;
+                CK_MoveComp.Checked = Properties.Settings.Default.MoveComp;
+                CK_PauseCMD.Checked = Properties.Settings.Default.Pause;
+                CK_OutSameDir.Checked = Properties.Settings.Default.SameDirOutput;
                 PresetName.Text = "default";
                 SetPreset(0);
             }
@@ -63,7 +98,7 @@ namespace EncodeAuto
                 catch (Exception)
                 {
                 }
-                
+
             }
             radioButtons[Properties.Settings.Default.ActiveRedioBox].Checked = true;
         }
@@ -156,8 +191,9 @@ namespace EncodeAuto
             Properties.Settings.Default.Arguments = Arguments.Text;
             Properties.Settings.Default.Safix = Safix.Text;
             Properties.Settings.Default.OutputDir = Dir.Text;
-            Properties.Settings.Default.MoveComp = MoveComp.Checked;
-            Properties.Settings.Default.Pause = PauseCMD.Checked;
+            Properties.Settings.Default.MoveComp = CK_MoveComp.Checked;
+            Properties.Settings.Default.Pause = CK_PauseCMD.Checked;
+            Properties.Settings.Default.SameDirOutput = CK_OutSameDir.Checked;
             Properties.Settings.Default.ActiveRedioBox = SelectedRadioButton();
         }
         internal void SetPreset(int index)
@@ -170,9 +206,9 @@ namespace EncodeAuto
                 preset.argment[index] = Arguments.Text;
                 preset.safix[index] = Safix.Text;
                 preset.outDir[index] = Dir.Text;
-                preset.afterMove[index] = MoveComp.Checked;
-                preset.pauseCMD[index] = PauseCMD.Checked;
-
+                preset.afterOriginMove[index] = CK_MoveComp.Checked;
+                preset.pauseCMD[index] = CK_PauseCMD.Checked;
+                preset.sameDirOutput[index] = CK_OutSameDir.Checked;
             }
             catch (Exception)
             {
@@ -193,14 +229,15 @@ namespace EncodeAuto
                 Arguments.Text = preset.argment[index];
                 Safix.Text = preset.safix[index];
                 Dir.Text = preset.outDir[index];
-                MoveComp.Checked = preset.afterMove[index];
-                PauseCMD.Checked = preset.pauseCMD[index];
+                CK_MoveComp.Checked = preset.afterOriginMove[index];
+                CK_PauseCMD.Checked = preset.pauseCMD[index];
+                CK_OutSameDir.Checked = preset.sameDirOutput[index];
             }
             catch
             {
 
             }
-            
+
         }
 
         private int SelectedRadioButton()
@@ -216,7 +253,7 @@ namespace EncodeAuto
             }
             return index;
         }
-        private async void button1_Click(object sender, EventArgs e)
+        private async void BT_start_Click(object sender, EventArgs e)
         {
             //string exePath = textBox1.Text;
             //SaveSetting();
@@ -237,7 +274,7 @@ namespace EncodeAuto
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button2_Click(object sender, EventArgs e)
+        private void BT_addInputDir_Click(object sender, EventArgs e)
         {
             string outDir = Dir.Text;
             Properties.Settings.Default.OutputDir = outDir;
@@ -245,7 +282,7 @@ namespace EncodeAuto
             AddListboxItem(new string[] { outDir + @"\Input" });
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void BT_open_Click(object sender, EventArgs e)
         {
             string outDir = Dir.Text;
             Properties.Settings.Default.OutputDir = outDir;
@@ -257,24 +294,32 @@ namespace EncodeAuto
             }
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void BT_Save_Click(object sender, EventArgs e)
         {
             SaveSetting();
         }
 
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        private void CK_PauseCMD_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.Pause = PauseCMD.Checked;
+            Properties.Settings.Default.Pause = CK_PauseCMD.Checked;
             int index = SelectedRadioButton();
-            preset.pauseCMD[index] = PauseCMD.Checked;
+            preset.pauseCMD[index] = CK_PauseCMD.Checked;
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void CK_MoveComp_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.MoveComp = MoveComp.Checked;
+            Properties.Settings.Default.MoveComp = CK_MoveComp.Checked;
             int index = SelectedRadioButton();
-            preset.afterMove[index] = MoveComp.Checked;
+            preset.afterOriginMove[index] = CK_MoveComp.Checked;
         }
+        private void CK_OutSameDir_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.SameDirOutput = CK_OutSameDir.Checked;
+            int index = SelectedRadioButton();
+            preset.sameDirOutput[index] = CK_OutSameDir.Checked;
+        }
+
+        #region ラジオボタン
         /// <summary>
         /// ラジオボタン排他制御
         /// </summary>
@@ -330,5 +375,26 @@ namespace EncodeAuto
         {
             radioButtonChecked(7);
         }
+
+        private void radioButton9_CheckedChanged(object sender, EventArgs e)
+        {
+            radioButtonChecked(8);
+        }
+
+        private void radioButton10_CheckedChanged(object sender, EventArgs e)
+        {
+            radioButtonChecked(9);
+        }
+
+        private void radioButton11_CheckedChanged(object sender, EventArgs e)
+        {
+            radioButtonChecked(10);
+        }
+
+        private void radioButton12_CheckedChanged(object sender, EventArgs e)
+        {
+            radioButtonChecked(11);
+        }
+        #endregion
     }
 }
