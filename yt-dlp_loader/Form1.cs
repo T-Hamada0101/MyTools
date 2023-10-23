@@ -162,11 +162,17 @@ namespace yt_dlp_loader
             string configFilePath = Properties.Settings.Default.ExePath.Replace("yt-dlp.exe", "yt-dlp.conf");
             ClearFile(configFilePath);
             //write urlFile
-            string OptionsForOutFileName = @"-o ""D:\WD12share\_Youtube\%(title)s.%(ext)s""";
-            if(checkBox2.Checked)
+            //string OptionsForOutFileName = @"-o ""D:\WD12share\_Youtube\%(title)s.%(ext)s""";
+            string OptionsForOutFileName = @"D:\WD12share\_Youtube\%(title)s";
+            if (checkBox3.Checked)
             {
-                OptionsForOutFileName = @"-o ""D:\WD12share\_Youtube\%(title)s_%(id)s.%(ext)s""";
+                OptionsForOutFileName += @"_%(uploader)s";
             }
+            if (checkBox2.Checked)
+            {
+                OptionsForOutFileName += @"_%(id)s";
+            }
+            OptionsForOutFileName = @"-o """ + OptionsForOutFileName + @".%(ext)s" + @"""";
             AppendTextToFile(configFilePath, OptionsForOutFileName);
             AppendTextToFile(configFilePath, @"- N " + thred.ToString());
             AppendTextToFile(configFilePath, @"--no-mtime");
