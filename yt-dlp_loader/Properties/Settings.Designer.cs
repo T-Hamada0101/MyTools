@@ -82,5 +82,29 @@ namespace yt_dlp_loader.Properties {
                 this["DLThreads"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AddDownloaderName {
+            get {
+                return ((bool)(this["AddDownloaderName"]));
+            }
+            set {
+                this["AddDownloaderName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AddVideoId {
+            get {
+                return ((bool)(this["AddVideoId"]));
+            }
+            set {
+                this["AddVideoId"] = value;
+            }
+        }
     }
 }
