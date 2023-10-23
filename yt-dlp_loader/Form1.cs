@@ -186,10 +186,12 @@ namespace yt_dlp_loader
         }
         private void RunBrowser(List<string> urls)
         {
+            int waiteSec = Properties.Settings.Default.BrowserOpenTime;
             if (!checkBox1.Checked) return;
             foreach (var url in urls)
             {
                 Process p = OprnUrl(url);
+                Thread.Sleep(waiteSec * 1000);
             }
 
         }
