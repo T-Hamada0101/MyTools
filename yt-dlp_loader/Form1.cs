@@ -176,6 +176,17 @@ namespace yt_dlp_loader
             {
                 OptionsForOutFileName += @"_%(id)s";
             }
+            if (checkBox4.Checked)
+            {
+                OptionsForOutFileName += textBox4.Text.Trim();
+            }
+
+            if (checkBox5.Checked)
+            {
+                OptionsForOutFileName += textBox5.Text.Trim();
+            }
+
+
             OptionsForOutFileName = @"-o """ + OptionsForOutFileName + @".%(ext)s" + @"""";
             AppendTextToFile(configFilePath, OptionsForOutFileName);
             AppendTextToFile(configFilePath, @"- N " + thred.ToString());
