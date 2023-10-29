@@ -259,11 +259,45 @@ namespace EncodeAuto
             //SaveSetting();
             SetPropeties();
             // ListBox1 の Items を List<string> に変換する
-            List<string> list = listBox1.Items.Cast<string>().ToList();
+            List<string> allList = listBox1.Items.Cast<string>().ToList();
 
-            EncodeDeta deta = new EncodeDeta(list);
-            Task.Run(() => new Encoder(deta));
-            //ProcessUtils.RunCommand(batPath, null);
+            //分割セッション数
+            int threadNum = (int)numericUpDown1.Value;
+            if (threadNum > allList.Count)
+            {
+                threadNum = allList.Count;
+            }
+            //セッション数分のリストを作成
+            List<List<string>> sessions = new List<List<string>>();
+            for (int i = 0; i < threadNum; i++)
+            {
+                sessions.Add(new List<string>());
+            }
+            //分割
+            int count = 0;
+            foreach (string _file in allList)
+            {
+                sessions[count].Add(_file);
+                count++;
+                if (count >= threadNum)
+                {
+                    count = 0;
+                }
+            }
+            //listを実行
+            for (int i = 0; i < sessions.Count; i++)
+            {
+                List<string> items = sessions[i];
+                EncodeDeta deta = new EncodeDeta(i, items);
+                Task.Run(() => new Encoder(deta));
+                //listBolからitemsと同じ文字列を削除
+                foreach (string _file in items)
+                {
+                    listBox1.Items.Remove(_file);
+                }
+            }
+
+
             listBox1.Items.Clear();
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)

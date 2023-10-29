@@ -46,9 +46,10 @@ namespace EncodeAuto
         private string inputDir;
         private string finishedOriginalDir;
         public string errorDir;
-        public EncodeDeta(List<string> _list, bool IsErrorLogOut = false)
+        public EncodeDeta(int sessionNum,List<string> _list, bool IsErrorLogOut = false)
         {
             batPath = Properties.Settings.Default.ExePath;
+            batPath = batPath.Replace(".bat", sessionNum.ToString() + ".bat");
             arguments = Properties.Settings.Default.Arguments;
             safix = Properties.Settings.Default.Safix;
             isENcodeSameDir = Properties.Settings.Default.SameDirOutput;
@@ -297,6 +298,15 @@ namespace EncodeAuto
 
         public void ClearFile(string filePath)
         {
+            if (!File.Exists(filePath))
+            {
+                //ファイルがなければ作成
+                filePath = Path.GetFullPath(filePath);
+                FileStream fs = File.Create(filePath);
+                fs.Close();
+
+                //File.Create(filePath).Close();
+            }
             File.WriteAllText(filePath, string.Empty);
         }
 

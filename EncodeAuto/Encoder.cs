@@ -76,7 +76,7 @@ namespace EncodeAuto
             //    }
             //}
             if (errorFiles.Count == 0) return;
-            EncodeDeta detaE = new EncodeDeta(errorFiles,true);//エラー出力あり
+            EncodeDeta detaE = new EncodeDeta(0,errorFiles,true);//エラー出力あり
             await RunCoreAsync(detaE);
             Thread.Sleep(500); //0.5秒間スレッドを停止
             detaE.PostProcessing();

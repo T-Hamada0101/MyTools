@@ -59,12 +59,19 @@
             label5 = new Label();
             PresetName = new TextBox();
             CK_OutSameDir = new CheckBox();
+            numericUpDown1 = new NumericUpDown();
+            label6 = new Label();
+            panel1 = new Panel();
+            tableLayoutPanel1 = new TableLayoutPanel();
             groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
+            panel1.SuspendLayout();
+            tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // BatPath
             // 
-            BatPath.Location = new Point(113, 50);
+            BatPath.Location = new Point(104, 42);
             BatPath.Name = "BatPath";
             BatPath.Size = new Size(794, 27);
             BatPath.TabIndex = 0;
@@ -72,7 +79,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(14, 60);
+            label1.Location = new Point(5, 52);
             label1.Name = "label1";
             label1.Size = new Size(53, 20);
             label1.TabIndex = 1;
@@ -80,7 +87,7 @@
             // 
             // Arguments
             // 
-            Arguments.Location = new Point(170, 95);
+            Arguments.Location = new Point(161, 87);
             Arguments.Name = "Arguments";
             Arguments.Size = new Size(737, 27);
             Arguments.TabIndex = 2;
@@ -88,7 +95,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(14, 98);
+            label2.Location = new Point(5, 90);
             label2.Name = "label2";
             label2.Size = new Size(154, 20);
             label2.TabIndex = 3;
@@ -96,19 +103,19 @@
             // 
             // listBox1
             // 
-            listBox1.Dock = DockStyle.Bottom;
+            listBox1.Dock = DockStyle.Fill;
             listBox1.FormattingEnabled = true;
             listBox1.ItemHeight = 20;
-            listBox1.Location = new Point(0, 251);
+            listBox1.Location = new Point(3, 253);
             listBox1.Name = "listBox1";
-            listBox1.Size = new Size(1338, 164);
+            listBox1.Size = new Size(1335, 395);
             listBox1.TabIndex = 4;
             // 
             // BT_start
             // 
-            BT_start.Location = new Point(937, 199);
+            BT_start.Location = new Point(1134, 210);
             BT_start.Name = "BT_start";
-            BT_start.Size = new Size(256, 29);
+            BT_start.Size = new Size(184, 29);
             BT_start.TabIndex = 5;
             BT_start.Text = "Start";
             BT_start.UseVisualStyleBackColor = true;
@@ -116,7 +123,7 @@
             // 
             // Safix
             // 
-            Safix.Location = new Point(113, 137);
+            Safix.Location = new Point(55, 130);
             Safix.Name = "Safix";
             Safix.Size = new Size(121, 27);
             Safix.TabIndex = 6;
@@ -124,7 +131,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(18, 140);
+            label3.Location = new Point(9, 132);
             label3.Name = "label3";
             label3.Size = new Size(40, 20);
             label3.TabIndex = 7;
@@ -132,7 +139,7 @@
             // 
             // Dir
             // 
-            Dir.Location = new Point(513, 14);
+            Dir.Location = new Point(504, 6);
             Dir.Name = "Dir";
             Dir.Size = new Size(261, 27);
             Dir.TabIndex = 8;
@@ -140,7 +147,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(403, 19);
+            label4.Location = new Point(394, 11);
             label4.Name = "label4";
             label4.Size = new Size(104, 20);
             label4.TabIndex = 9;
@@ -149,7 +156,7 @@
             // CK_MoveComp
             // 
             CK_MoveComp.AutoSize = true;
-            CK_MoveComp.Location = new Point(259, 136);
+            CK_MoveComp.Location = new Point(193, 133);
             CK_MoveComp.Name = "CK_MoveComp";
             CK_MoveComp.Size = new Size(209, 24);
             CK_MoveComp.TabIndex = 10;
@@ -159,7 +166,7 @@
             // 
             // BT_addInputDir
             // 
-            BT_addInputDir.Location = new Point(12, 200);
+            BT_addInputDir.Location = new Point(3, 210);
             BT_addInputDir.Name = "BT_addInputDir";
             BT_addInputDir.Size = new Size(115, 29);
             BT_addInputDir.TabIndex = 13;
@@ -169,7 +176,7 @@
             // 
             // BT_open
             // 
-            BT_open.Location = new Point(787, 14);
+            BT_open.Location = new Point(778, 6);
             BT_open.Name = "BT_open";
             BT_open.Size = new Size(115, 29);
             BT_open.TabIndex = 14;
@@ -179,7 +186,7 @@
             // 
             // BT_Save
             // 
-            BT_Save.Location = new Point(787, 167);
+            BT_Save.Location = new Point(807, 130);
             BT_Save.Name = "BT_Save";
             BT_Save.Size = new Size(115, 29);
             BT_Save.TabIndex = 15;
@@ -190,7 +197,7 @@
             // CK_PauseCMD
             // 
             CK_PauseCMD.AutoSize = true;
-            CK_PauseCMD.Location = new Point(700, 137);
+            CK_PauseCMD.Location = new Point(591, 133);
             CK_PauseCMD.Name = "CK_PauseCMD";
             CK_PauseCMD.Size = new Size(202, 24);
             CK_PauseCMD.TabIndex = 16;
@@ -212,7 +219,7 @@
             groupBox1.Controls.Add(radioButton3);
             groupBox1.Controls.Add(radioButton2);
             groupBox1.Controls.Add(radioButton1);
-            groupBox1.Location = new Point(937, 16);
+            groupBox1.Location = new Point(928, 8);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(390, 160);
             groupBox1.TabIndex = 17;
@@ -366,7 +373,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(18, 16);
+            label5.Location = new Point(9, 8);
             label5.Name = "label5";
             label5.Size = new Size(89, 20);
             label5.TabIndex = 18;
@@ -374,7 +381,7 @@
             // 
             // PresetName
             // 
-            PresetName.Location = new Point(113, 12);
+            PresetName.Location = new Point(104, 4);
             PresetName.Name = "PresetName";
             PresetName.Size = new Size(158, 27);
             PresetName.TabIndex = 19;
@@ -382,7 +389,7 @@
             // CK_OutSameDir
             // 
             CK_OutSameDir.AutoSize = true;
-            CK_OutSameDir.Location = new Point(475, 136);
+            CK_OutSameDir.Location = new Point(409, 133);
             CK_OutSameDir.Name = "CK_OutSameDir";
             CK_OutSameDir.Size = new Size(176, 24);
             CK_OutSameDir.TabIndex = 20;
@@ -390,38 +397,85 @@
             CK_OutSameDir.UseVisualStyleBackColor = true;
             CK_OutSameDir.CheckedChanged += CK_OutSameDir_CheckedChanged;
             // 
+            // numericUpDown1
+            // 
+            numericUpDown1.Location = new Point(1039, 212);
+            numericUpDown1.Maximum = new decimal(new int[] { 5, 0, 0, 0 });
+            numericUpDown1.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numericUpDown1.Name = "numericUpDown1";
+            numericUpDown1.Size = new Size(68, 27);
+            numericUpDown1.TabIndex = 21;
+            numericUpDown1.Value = new decimal(new int[] { 5, 0, 0, 0 });
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(941, 216);
+            label6.Name = "label6";
+            label6.Size = new Size(92, 20);
+            label6.TabIndex = 22;
+            label6.Text = "MaxSessions";
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(PresetName);
+            panel1.Controls.Add(label6);
+            panel1.Controls.Add(BatPath);
+            panel1.Controls.Add(numericUpDown1);
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(CK_OutSameDir);
+            panel1.Controls.Add(Arguments);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(label5);
+            panel1.Controls.Add(BT_start);
+            panel1.Controls.Add(groupBox1);
+            panel1.Controls.Add(Safix);
+            panel1.Controls.Add(CK_PauseCMD);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(BT_open);
+            panel1.Controls.Add(Dir);
+            panel1.Controls.Add(BT_Save);
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(BT_addInputDir);
+            panel1.Controls.Add(CK_MoveComp);
+            panel1.Location = new Point(3, 3);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1334, 244);
+            panel1.TabIndex = 23;
+            // 
+            // tableLayoutPanel1
+            // 
+            tableLayoutPanel1.ColumnCount = 1;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.Controls.Add(panel1, 0, 0);
+            tableLayoutPanel1.Controls.Add(listBox1, 0, 1);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(0, 0);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 2;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 250F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 381F));
+            tableLayoutPanel1.Size = new Size(1341, 651);
+            tableLayoutPanel1.TabIndex = 25;
+            // 
             // Form1
             // 
             AllowDrop = true;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1338, 415);
-            Controls.Add(CK_OutSameDir);
-            Controls.Add(PresetName);
-            Controls.Add(label5);
-            Controls.Add(groupBox1);
-            Controls.Add(CK_PauseCMD);
-            Controls.Add(BT_open);
-            Controls.Add(BT_Save);
-            Controls.Add(BT_addInputDir);
-            Controls.Add(CK_MoveComp);
-            Controls.Add(label4);
-            Controls.Add(Dir);
-            Controls.Add(label3);
-            Controls.Add(Safix);
-            Controls.Add(BT_start);
-            Controls.Add(listBox1);
-            Controls.Add(label2);
-            Controls.Add(Arguments);
-            Controls.Add(label1);
-            Controls.Add(BatPath);
+            AutoSize = true;
+            ClientSize = new Size(1341, 651);
+            Controls.Add(tableLayoutPanel1);
             Name = "Form1";
             Text = "Form1";
             FormClosing += Form1_FormClosing;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -457,5 +511,9 @@
         private RadioButton radioButton10;
         private RadioButton radioButton11;
         private RadioButton radioButton12;
+        private NumericUpDown numericUpDown1;
+        private Label label6;
+        private Panel panel1;
+        private TableLayoutPanel tableLayoutPanel1;
     }
 }
