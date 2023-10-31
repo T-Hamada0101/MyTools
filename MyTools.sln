@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EncodeAuto", "EncodeAuto\En
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExcelReader", "MyExcelReader\MyExcelReader.csproj", "{FFCEF8A7-3CB6-4069-8959-A91DABBED7C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_Copilot", "_Copilot\_Copilot.csproj", "{0DB4B3D2-FA75-4D5C-9F0E-A0D900D0A5D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{FFCEF8A7-3CB6-4069-8959-A91DABBED7C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFCEF8A7-3CB6-4069-8959-A91DABBED7C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFCEF8A7-3CB6-4069-8959-A91DABBED7C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DB4B3D2-FA75-4D5C-9F0E-A0D900D0A5D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DB4B3D2-FA75-4D5C-9F0E-A0D900D0A5D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DB4B3D2-FA75-4D5C-9F0E-A0D900D0A5D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DB4B3D2-FA75-4D5C-9F0E-A0D900D0A5D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
