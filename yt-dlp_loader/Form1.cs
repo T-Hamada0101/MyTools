@@ -29,6 +29,8 @@ namespace yt_dlp_loader
             numericUpDown1.Value = Properties.Settings.Default.DLThreads;
             checkBox3.Checked = Properties.Settings.Default.AddDownloaderName;
             checkBox2.Checked = Properties.Settings.Default.AddVideoId;
+            textBox4.Text = Properties.Settings.Default.AddText1;
+            textBox5.Text = Properties.Settings.Default.AddText2;
         }
         public void SaveSetting()
         {
@@ -37,6 +39,8 @@ namespace yt_dlp_loader
             Properties.Settings.Default.IsOpenUrl = checkBox1.Checked;
             Properties.Settings.Default.AddDownloaderName = checkBox3.Checked;
             Properties.Settings.Default.AddVideoId = checkBox2.Checked;
+            Properties.Settings.Default.AddText1 = textBox4.Text;
+            Properties.Settings.Default.AddText2 = textBox5.Text;
 
             int threads = (int)numericUpDown1.Value;
             if (threads < 0) threads = 1;

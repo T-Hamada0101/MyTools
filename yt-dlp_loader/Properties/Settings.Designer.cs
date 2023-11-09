@@ -106,5 +106,29 @@ namespace yt_dlp_loader.Properties {
                 this["AddVideoId"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AddText1 {
+            get {
+                return ((string)(this["AddText1"]));
+            }
+            set {
+                this["AddText1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AddText2 {
+            get {
+                return ((string)(this["AddText2"]));
+            }
+            set {
+                this["AddText2"] = value;
+            }
+        }
     }
 }
