@@ -102,7 +102,42 @@ namespace yt_dlp_loader
             }
             return url;
         }
+        /*
+         
+         ListViewのアイテムのテキストをユーザーが編集できるようにする
+         https://dobon.net/vb/dotnet/control/lvlabeledit.html
+         
+         
+         */
+        private void AddListboxEditEvents()
+        {
+            //------------イベント登録------------
+            // Add an event handler for the ListBox's MouseDoubleClick event
+            listBox1.MouseDoubleClick += (sender, e) =>
+            {
+                // Get the index of the clicked item
+                int index = listBox1.IndexFromPoint(e.Location);
 
+                // If the index is valid, enter edit mode
+                if (index != ListBox.NoMatches)
+                {
+                    // Get the bounds of the clicked item
+                    Rectangle bounds = listBox1.GetItemRectangle(index);
+
+                    // Set the TextBox's location and size to match the clicked item
+                    textBox1.Location = new Point(bounds.X, bounds.Y);
+                    textBox1.Size = new Size(bounds.Width, bounds.Height);
+
+                    // Set the TextBox's text to the clicked item's text
+                    textBox1.Text = listBox1.Items[index].ToString();
+
+                    // Make the TextBox visible and give it focus
+                    textBox1.Visible = true;
+                    textBox1.Focus();
+                }
+
+            };
+        }
         /// <summary>
         /// 非同期で外部コマンド実行
         /// </summary>
@@ -247,6 +282,11 @@ namespace yt_dlp_loader
         private void button3_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("EXPLORER.EXE", @"D:\WD12share\_Youtube");
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }
