@@ -46,7 +46,7 @@ namespace EncodeAuto
         private string inputDir;
         private string finishedOriginalDir;
         public string errorDir;
-        public EncodeDeta(int sessionNum,List<string> _list, bool IsErrorLogOut = false)
+        public EncodeDeta(int sessionNum,List<string> _list, bool IsErrorLogOut = false,bool isCutMode = false,List<string> cutTimes = null)
         {
             batPath = Properties.Settings.Default.ExePath;
             batPath = batPath.Replace(".bat", sessionNum.ToString() + ".bat");
@@ -70,7 +70,100 @@ namespace EncodeAuto
             CleateDir(FatCompressedOut);
             ClearFile(batPath);
             ClearFile(bat2Path);
-            WriteBatFile(_list,false, IsErrorLogOut);
+            if (isCutMode)
+            {
+                WriteBatFileForCut(_list, false, IsErrorLogOut, cutTimes);
+            }
+            else
+            {
+                WriteBatFile(_list, false, IsErrorLogOut);
+            }
+        }
+
+        private void WriteBatFileForCut(List<string> _list, bool renameEmoji, bool ErrorOutOn,List<string> cutTimes)
+        {
+            AppendTextToFile(batPath, @"chcp 65001", "UTF-8");//chcp 65001
+            AppendTextToFile(batPath, @"cd /d %~dp0", "UTF-8");
+
+            foreach (string pass in _list)
+            {
+                //if (!FileUtils.IsMovieFile(pass)) { continue; }
+
+                InputFiles.Add(pass);
+
+                string after = pass;
+                if (renameEmoji)
+                {
+                    //絵文字除去
+                    after = RenameEmojiFile(pass);
+                }
+
+                //拡張子なしのファイル名の取得:
+                string _noExt = Path.GetFileNameWithoutExtension(after);
+
+                //出力先分岐
+                string? outDir;
+                if (isENcodeSameDir)
+                {
+                    outDir = Path.GetDirectoryName(after);
+                    //nullの場合はbaseDir
+                    if (outDir is null)
+                    {
+                        outDir = baseDir;
+                    }
+                }
+                else
+                {
+                    outDir = baseDir;
+                }
+
+                int num= 1;
+                string startTime = "00:00:00";
+                string endTime = "00:00:00";
+                foreach (string time in cutTimes)
+                {
+                    endTime = time;
+                    //エンコード後のファイル名
+                    string encoded = outDir + @"\" + _noExt + "_" + num.ToString() + safix;
+                    int n = 0;
+                    while (File.Exists(encoded))
+                    {
+                        n++;
+                        encoded = outDir + @"\" + _noExt + "_" + num.ToString() + "_" + n.ToString() + safix;
+                    }
+                    //出世魚の名前保存
+                    //Org_After_Encoded.Add(pass, after + @"*" + encoded);
+
+
+
+                    string arg = arguments.Replace(@"%input", @"""" + after + @"""");
+                    arg = arg.Replace(@"%out", @"""" + encoded + @"""");
+
+                    arg = arg.Replace(@"%st", startTime);
+                    arg = arg.Replace(@"%ed", endTime);
+
+                    if (ErrorOutOn)
+                    {//エラーログ出力
+                        arg = arg + @" --log-level error --log " + errorDir + @"\errorlog.txt";
+                    }
+
+                    startTime = endTime;
+
+                    //1ファイル分の処理書き込み
+                    AppendTextToFile(batPath, arg, "UTF-8");
+                    //ウエイト1秒
+                    AppendTextToFile(batPath, @"timeout /t 1 /nobreak > nul", "UTF-8");
+                    num++;
+                }
+               
+
+
+
+            }
+            //ウエイト2秒
+            AppendTextToFile(batPath, @"timeout /t 2 /nobreak > nul", "UTF-8");
+            //プロンプトを一時停止
+            if (Properties.Settings.Default.Pause) { AppendTextToFile(batPath, "PAUSE", "UTF-8"); }
         }
 
         private void WriteBatFile(List<string> _list,bool renameEmoji,bool ErrorOutOn)

@@ -62,6 +62,8 @@
             numericUpDown1 = new NumericUpDown();
             label6 = new Label();
             panel1 = new Panel();
+            button1 = new Button();
+            textBox1 = new TextBox();
             tableLayoutPanel1 = new TableLayoutPanel();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
@@ -108,7 +110,7 @@
             listBox1.ItemHeight = 20;
             listBox1.Location = new Point(3, 253);
             listBox1.Name = "listBox1";
-            listBox1.Size = new Size(1335, 395);
+            listBox1.Size = new Size(1776, 395);
             listBox1.TabIndex = 4;
             // 
             // BT_start
@@ -418,6 +420,8 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(button1);
+            panel1.Controls.Add(textBox1);
             panel1.Controls.Add(PresetName);
             panel1.Controls.Add(label6);
             panel1.Controls.Add(BatPath);
@@ -440,8 +444,28 @@
             panel1.Controls.Add(CK_MoveComp);
             panel1.Location = new Point(3, 3);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1334, 244);
+            panel1.Size = new Size(1776, 244);
             panel1.TabIndex = 23;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(1537, 198);
+            button1.Name = "button1";
+            button1.Size = new Size(94, 29);
+            button1.TabIndex = 24;
+            button1.Text = "cut";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // textBox1
+            // 
+            textBox1.Font = new Font("Yu Gothic UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            textBox1.Location = new Point(1380, 20);
+            textBox1.Multiline = true;
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(125, 200);
+            textBox1.TabIndex = 23;
+            textBox1.Text = "02:36:20\r\n05:08:35\r\n07:42:50\r\n00:00:00";
             // 
             // tableLayoutPanel1
             // 
@@ -455,7 +479,7 @@
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 250F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 381F));
-            tableLayoutPanel1.Size = new Size(1341, 651);
+            tableLayoutPanel1.Size = new Size(1782, 651);
             tableLayoutPanel1.TabIndex = 25;
             // 
             // Form1
@@ -464,7 +488,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
-            ClientSize = new Size(1341, 651);
+            ClientSize = new Size(1782, 651);
             Controls.Add(tableLayoutPanel1);
             Name = "Form1";
             Text = "Form1";
@@ -515,5 +539,7 @@
         private Label label6;
         private Panel panel1;
         private TableLayoutPanel tableLayoutPanel1;
+        private Button button1;
+        private TextBox textBox1;
     }
 }

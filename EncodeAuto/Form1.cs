@@ -430,5 +430,57 @@ namespace EncodeAuto
             radioButtonChecked(11);
         }
         #endregion
+
+        /// <summary>
+        /// CUT
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //string exePath = textBox1.Text;
+            //SaveSetting();
+            SetPropeties();
+            // ListBox1 の Items を List<string> に変換する
+            List<string> allList = listBox1.Items.Cast<string>().ToList();
+
+            //分割セッション数
+            int threadNum = 1;
+            //セッション数分のリストを作成
+            List<List<string>> sessions = new List<List<string>>();
+            for (int i = 0; i < threadNum; i++)
+            {
+                sessions.Add(new List<string>());
+            }
+            //分割
+            int count = 0;
+            foreach (string _file in allList)
+            {
+                sessions[count].Add(_file);
+                count++;
+                if (count >= threadNum)
+                {
+                    count = 0;
+                }
+            }
+            //listを実行
+            for (int i = 0; i < sessions.Count; i++)
+            {
+                List<string> items = sessions[i];
+                List<string> cutTimes = new List<string>();
+                string[] times = textBox1.Text.Split("\r\n");
+                foreach (string time in times)
+                {
+                    cutTimes.Add(time);
+                }
+                EncodeDeta deta = new EncodeDeta(i, items,false,true, cutTimes);
+                Task.Run(() => new Encoder(deta));
+                //listBolからitemsと同じ文字列を削除
+                foreach (string _file in items)
+                {
+                    listBox1.Items.Remove(_file);
+                }
+            }
+        }
     }
 }
