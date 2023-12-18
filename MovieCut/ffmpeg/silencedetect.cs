@@ -15,34 +15,43 @@ namespace MovieCut.ffmpeg
         //    return files.Where(x => x.EndsWith(".MOV") || x.EndsWith(".mp4") || x.EndsWith(".mov")).OrderByNatural().ToList();
         //}
 
-        public static void CutSilent(string movie, string noiseDB = "0.001",string durationSec = "2")
+        public static void CutSilent(string movie, string noiseDB = "0.001",string durationSec = "0.8")
         {
             //duration:アニメのOPEDは開始終了に0.5秒の無音が入るので余裕を持ってd=0.45を指定するとその区間以上で検出する。
             try
             {
+                string log = @"D:\WD12share\MyToolsRelease\NVEncC_7.31_x64\log.txt";
                 // This is a simplified version of the original Python function.
                 // It doesn't include the logic for parsing the output and splitting the movie file.
                 var startInfo = new ProcessStartInfo
                 {
                     FileName = ffmpeg.GetFfmpegPath(),
-                    Arguments = $"-i {movie} -af silencedetect=noise={noiseDB}dB:d={durationSec} -f null -",
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    //コマンドウィンドウを共有
-                    UseShellExecute = false,
-                    //CreateNoWindow = true,
-                    //コンソールアプリケーションを表示にする
-                    CreateNoWindow = false,
+                    Arguments = $"-i {movie} -af silencedetect=noise={noiseDB}dB:d={durationSec} -f null -",//2>{log}",
+                    RedirectStandardOutput = false,
+                    RedirectStandardError = true,//ここに状況が出力される
+                    //RedirectStandardInput = true,//プロセスに対してコマンドの送付が可能（FFmpegは「Q」キーで停止可能）
+                    UseShellExecute = false,//コマンドウィンドウを共有
+                    CreateNoWindow = true,//コンソールアプリケーションを非表示にする(どちらでもOK)
+
                 };
                 using (var process = Process.Start(startInfo))
                 {
-                    var so = process.StandardOutput.ReadToEnd();
+                    //// コマンド終了後にイベント発行させる
+                    //process.EnableRaisingEvents = true;
+                    //process.Exited += new EventHandler(process_Exited);
+
+                    //var so = process.StandardOutput.ReadToEnd();
                     var se = process.StandardError.ReadToEnd();
+                    /* //StandardErrorの取得方法
+                    RedirectStandardOutput = false,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,//コマンドウィンドウを共有しない
+                     */
 
                     process.WaitForExit();
 
-                    Console.WriteLine(so);
-                    Console.WriteLine("[app3] ------");
+                    //Console.WriteLine(so);
+                    //Console.WriteLine("[app3] ------");
                     Console.WriteLine(se);
                     process.Close();
                 }
