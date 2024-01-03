@@ -7,7 +7,12 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <PlatformTarget>x64</PlatformTarget>
+    <ApplicationIcon>IconPerple.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="IconPerple.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MimeTypesMap" Version="1.0.8" />
