@@ -206,7 +206,7 @@ namespace yt_dlp_loader
             ClearFile(configFilePath);
             //write urlFile
             //string OptionsForOutFileName = @"-o ""D:\WD12share\_Youtube\%(title)s.%(ext)s""";
-            string OptionsForOutFileName = @"D:\WD12share\_Youtube\%(title)s";
+            string OptionsForOutFileName = @"H:\_Youtube\%(title)s";
             if (checkBox3.Checked)
             {
                 OptionsForOutFileName += @"_%(uploader)s";
@@ -232,7 +232,7 @@ namespace yt_dlp_loader
             AppendTextToFile(configFilePath, @"--no-mtime");
             AppendTextToFile(configFilePath, @"--console-title");
             AppendTextToFile(configFilePath, @"--cookies-from-browser firefox");
-            AppendTextToFile(configFilePath, @"-a ""D:\WD12share\_yt-dlp_url.txt""");
+            AppendTextToFile(configFilePath, @"-a ""H:\_yt-dlp_url.txt""");
         }
         private void RunBrowser(List<string> urls)
         {
@@ -281,7 +281,7 @@ namespace yt_dlp_loader
 
         private void button3_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("EXPLORER.EXE", @"D:\WD12share\_Youtube");
+            System.Diagnostics.Process.Start("EXPLORER.EXE", @"H:\_Youtube");
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)

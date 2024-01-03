@@ -91,7 +91,7 @@ namespace MovieCut
             // ListBox1 ÇÃ Items Ç List<string> Ç…ïœä∑Ç∑ÇÈ
             List<string> allList = listBox1.Items.Cast<string>().ToList();
 
-            silencedetect.CutSilent(allList[0]);
+            silencedetect.GetSilentReport(allList[0]);
 
             ////Å@Create ffmpeg process
             //System.Diagnostics.Process p = new System.Diagnostics.Process();

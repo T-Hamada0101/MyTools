@@ -7,6 +7,9 @@ using System.Linq;
 
 namespace MovieCut.ffmpeg
 {
+    /// <summary>
+    /// 無音部分の取得
+    /// </summary>
     internal class silencedetect
     {
         //static List<string> GetMovie(string wkDir)
@@ -15,7 +18,7 @@ namespace MovieCut.ffmpeg
         //    return files.Where(x => x.EndsWith(".MOV") || x.EndsWith(".mp4") || x.EndsWith(".mov")).OrderByNatural().ToList();
         //}
 
-        public static void CutSilent(string movie, string noiseDB = "0.001",string durationSec = "0.8")
+        public static void GetSilentReport(string movie, string noiseDB = "0.005",string durationSec = "2")
         {
             //duration:アニメのOPEDは開始終了に0.5秒の無音が入るので余裕を持ってd=0.45を指定するとその区間以上で検出する。
             try

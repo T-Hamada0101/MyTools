@@ -14,6 +14,7 @@ namespace MyExcelReader
         [STAThread]
         static void Main()
         {
+            string gg= Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
