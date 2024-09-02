@@ -62,6 +62,7 @@
             numericUpDown1 = new NumericUpDown();
             label6 = new Label();
             panel1 = new Panel();
+            CK_ShortFileName = new CheckBox();
             button1 = new Button();
             textBox1 = new TextBox();
             tableLayoutPanel1 = new TableLayoutPanel();
@@ -420,6 +421,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(CK_ShortFileName);
             panel1.Controls.Add(button1);
             panel1.Controls.Add(textBox1);
             panel1.Controls.Add(PresetName);
@@ -446,6 +448,17 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(1776, 244);
             panel1.TabIndex = 23;
+            // 
+            // CK_ShortFileName
+            // 
+            CK_ShortFileName.AutoSize = true;
+            CK_ShortFileName.Location = new Point(193, 176);
+            CK_ShortFileName.Name = "CK_ShortFileName";
+            CK_ShortFileName.Size = new Size(179, 24);
+            CK_ShortFileName.TabIndex = 25;
+            CK_ShortFileName.Text = "長いファイル名を省略する";
+            CK_ShortFileName.UseVisualStyleBackColor = true;
+            CK_ShortFileName.CheckedChanged += CK_ShortFileName_CheckedChanged;
             // 
             // button1
             // 
@@ -541,5 +554,6 @@
         private TableLayoutPanel tableLayoutPanel1;
         private Button button1;
         private TextBox textBox1;
+        private CheckBox CK_ShortFileName;
     }
 }

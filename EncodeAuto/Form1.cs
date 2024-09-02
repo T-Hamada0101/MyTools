@@ -353,6 +353,12 @@ namespace EncodeAuto
             preset.sameDirOutput[index] = CK_OutSameDir.Checked;
         }
 
+        private void CK_ShortFileName_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.ShortFileName = CK_ShortFileName.Checked;
+            int index = SelectedRadioButton();
+            preset.shortFileName[index] = CK_ShortFileName.Checked;
+        }
         #region ラジオボタン
         /// <summary>
         /// ラジオボタン排他制御
@@ -473,7 +479,7 @@ namespace EncodeAuto
                 {
                     cutTimes.Add(time);
                 }
-                EncodeDeta deta = new EncodeDeta(i, items,false,true, cutTimes);
+                EncodeDeta deta = new EncodeDeta(i, items, false, true, cutTimes);
                 Task.Run(() => new Encoder(deta));
                 //listBolからitemsと同じ文字列を削除
                 foreach (string _file in items)
@@ -482,5 +488,6 @@ namespace EncodeAuto
                 }
             }
         }
+
     }
 }

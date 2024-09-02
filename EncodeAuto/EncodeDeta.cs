@@ -324,16 +324,39 @@ namespace EncodeAuto
                     //圧縮後ファイルの移動
                     if (!isENcodeSameDir)
                     {
+                        string f = encord;
+                        if (Properties.Settings.Default.ShortFileName)
+                        {
+                            //tergetのファイル名が30文字を超えれば省略する
+                            string fName = Path.GetFileName(f);
+                            if (fName.Length > 40)
+                            {
+                                //拡張子を除いたファイル名のみ取得
+                                fName = Path.GetFileNameWithoutExtension(f);
+                                //30文字に短縮
+
+                                fName = fName.Substring(0, 30);
+                                //拡張子を付与
+                                fName += Path.GetExtension(f);
+
+                            }
+                            string sh = Path.GetDirectoryName(f) + @"\" + fName;
+                            //tergetを短縮したファイル名に変更
+                            File.Move(f, sh);
+                            f = sh;
+                        }
+
+
                         //圧縮効果ありの場合は
-                        if (IsSizeCompressed(org, encord))
+                        if (IsSizeCompressed(org, f))
                         {
                             //エンコード後のファイルを圧縮完了フォルダへ
-                            MoveDir(encord, CompressedOutDir);
+                            MoveDir(f, CompressedOutDir);
                         }
                         else
                         {
                             //エンコード後のファイルを肥大圧縮完了フォルダへ
-                            MoveDir(encord, FatCompressedOut);
+                            MoveDir(f, FatCompressedOut);
                         }
                     }
                 }
@@ -425,6 +448,8 @@ namespace EncodeAuto
         /// <returns>orgFileの最終所在地</returns>
         private string MoveDir(string terget, string outDir)
         {
+            
+
             return FileUtils.MoveDir(terget, outDir);
         }
 

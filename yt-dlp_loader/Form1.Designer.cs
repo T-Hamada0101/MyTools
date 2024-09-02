@@ -48,6 +48,7 @@
             label5 = new Label();
             checkBox5 = new CheckBox();
             textBox5 = new TextBox();
+            checkBox6 = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
             // 
@@ -87,7 +88,7 @@
             // 
             listBox1.FormattingEnabled = true;
             listBox1.ItemHeight = 20;
-            listBox1.Location = new Point(12, 190);
+            listBox1.Location = new Point(12, 222);
             listBox1.Name = "listBox1";
             listBox1.Size = new Size(1142, 284);
             listBox1.TabIndex = 4;
@@ -227,12 +228,23 @@
             textBox5.Size = new Size(147, 27);
             textBox5.TabIndex = 19;
             // 
+            // checkBox6
+            // 
+            checkBox6.AutoSize = true;
+            checkBox6.Location = new Point(25, 182);
+            checkBox6.Name = "checkBox6";
+            checkBox6.Size = new Size(136, 24);
+            checkBox6.TabIndex = 21;
+            checkBox6.Text = "720p以下に制限";
+            checkBox6.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AllowDrop = true;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1166, 477);
+            ClientSize = new Size(1166, 526);
+            Controls.Add(checkBox6);
             Controls.Add(checkBox5);
             Controls.Add(textBox5);
             Controls.Add(label5);
@@ -282,5 +294,6 @@
         private Label label5;
         private CheckBox checkBox5;
         private TextBox textBox5;
+        private CheckBox checkBox6;
     }
 }

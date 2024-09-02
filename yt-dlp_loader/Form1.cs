@@ -11,7 +11,7 @@ namespace yt_dlp_loader
     {
         int waiteSec = 0;
 
-
+        //コンフィグファイルは、都度自動生成する
         public Form1()
         {
             InitializeComponent();
@@ -29,6 +29,7 @@ namespace yt_dlp_loader
             numericUpDown1.Value = Properties.Settings.Default.DLThreads;
             checkBox3.Checked = Properties.Settings.Default.AddDownloaderName;
             checkBox2.Checked = Properties.Settings.Default.AddVideoId;
+            checkBox6.Checked = Properties.Settings.Default.LimitSize720p;
             textBox4.Text = Properties.Settings.Default.AddText1;
             textBox5.Text = Properties.Settings.Default.AddText2;
         }
@@ -39,6 +40,7 @@ namespace yt_dlp_loader
             Properties.Settings.Default.IsOpenUrl = checkBox1.Checked;
             Properties.Settings.Default.AddDownloaderName = checkBox3.Checked;
             Properties.Settings.Default.AddVideoId = checkBox2.Checked;
+            Properties.Settings.Default.LimitSize720p = checkBox6.Checked;
             Properties.Settings.Default.AddText1 = textBox4.Text;
             Properties.Settings.Default.AddText2 = textBox5.Text;
 
@@ -173,6 +175,42 @@ namespace yt_dlp_loader
                 Process.Start(_command, _arguments);
             }
         }
+        public void RunCommandPause(string command, string? arguments)
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = "cmd.exe",
+                RedirectStandardInput = true,
+                RedirectStandardOutput = false,
+                RedirectStandardError = false,
+                UseShellExecute = false,
+                CreateNoWindow = false
+            };
+
+            using (Process process = new Process())
+            {
+                process.StartInfo = startInfo;
+                process.Start();
+
+                using (StreamWriter sw = process.StandardInput)
+                {
+                    if (sw.BaseStream.CanWrite)
+                    {
+                        if (!string.IsNullOrEmpty(arguments))
+                        {
+                            sw.WriteLine($"{command} {arguments}");
+                        }
+                        else
+                        {
+                            sw.WriteLine(command);
+                        }
+                        sw.WriteLine("pause"); // This will keep the command prompt open
+                    }
+                }
+
+                process.WaitForExit();
+            }
+        }
         private async void button1_Click(object sender, EventArgs e)
         {
             string exePath = textBox1.Text;
@@ -186,7 +224,13 @@ namespace yt_dlp_loader
             WriteConfigFile(thred);
             //await RunCommandAsync("cmd.exe",exePath);
             //RunCommand("cmd.exe", exePath);
+#if DEBUG
             RunCommand(exePath, null);
+            //RunCommandPause(exePath, null);
+#else
+
+            RunCommand(exePath, null);
+#endif
             RunBrowser(urls);
             listBox1.Items.Clear();
         }
@@ -224,15 +268,20 @@ namespace yt_dlp_loader
             {
                 OptionsForOutFileName += textBox5.Text.Trim();
             }
-
+            
 
             OptionsForOutFileName = @"-o """ + OptionsForOutFileName + @".%(ext)s" + @"""";
             AppendTextToFile(configFilePath, OptionsForOutFileName);
             AppendTextToFile(configFilePath, @"- N " + thred.ToString());
             AppendTextToFile(configFilePath, @"--no-mtime");
             AppendTextToFile(configFilePath, @"--console-title");
-            AppendTextToFile(configFilePath, @"--cookies-from-browser firefox");
+            AppendTextToFile(configFilePath, @"--cookies-from-browser firefox");//firefox//chrome
             AppendTextToFile(configFilePath, @"-a ""H:\_yt-dlp_url.txt""");
+            if (checkBox6.Checked)
+            {
+                AppendTextToFile(configFilePath, @"--format-sort res:720");
+            }
+            AppendTextToFile(configFilePath, @"--remux-video mkv");//うまく動かない
         }
         private void RunBrowser(List<string> urls)
         {
