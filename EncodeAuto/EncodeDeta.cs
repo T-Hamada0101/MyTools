@@ -10,6 +10,8 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 //using MimeTypes;
 using HeyRed.Mime;
 using System.Threading;
+using Microsoft.VisualBasic.Devices;
+using System.Diagnostics;
 //using System.Net.Mime;
 //using Microsoft.WindowsAPICodePack.Shell;
 //using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
@@ -46,7 +48,7 @@ namespace EncodeAuto
         private string inputDir;
         private string finishedOriginalDir;
         public string errorDir;
-        public EncodeDeta(int sessionNum,List<string> _list, bool IsErrorLogOut = false,bool isCutMode = false,List<string> cutTimes = null)
+        public EncodeDeta(int sessionNum,List<string> _list, bool IsErrorLogOut = false, bool isMergeMode = false, bool isCutMode = false,List<string> cutTimes = null)
         {
             batPath = Properties.Settings.Default.ExePath;
             batPath = batPath.Replace(".bat", sessionNum.ToString() + ".bat");
@@ -74,7 +76,11 @@ namespace EncodeAuto
             {
                 WriteBatFileForCut(_list, false, IsErrorLogOut, cutTimes);
             }
-            else
+            else if (isMergeMode)
+            {
+                WriteBatFile(_list, false, IsErrorLogOut);
+            }
+            else//エンコードのみ
             {
                 WriteBatFile(_list, false, IsErrorLogOut);
             }
@@ -155,10 +161,6 @@ namespace EncodeAuto
                     AppendTextToFile(batPath, @"timeout /t 1 /nobreak > nul", "UTF-8");
                     num++;
                 }
-               
-
-
-
             }
             //ウエイト2秒
             AppendTextToFile(batPath, @"timeout /t 2 /nobreak > nul", "UTF-8");
@@ -170,6 +172,26 @@ namespace EncodeAuto
         {
             AppendTextToFile(batPath, @"chcp 65001", "UTF-8");//chcp 65001
             AppendTextToFile(batPath, @"cd /d %~dp0", "UTF-8");
+
+            //マージモード時の音声ファイル
+            string audioFile = "";
+
+            //_list[0]に":"が含まれている場合はマージモード
+            //_list[0]:動画ファイルパスを収納
+            //audioFile:音声ファイルパスを収納
+            if (_list[0].Contains(":::"))
+            {
+                string[] _files = _list[0].Split(":::");
+                List<string> tmp = FileUtils.GetAllFilePath(_files);
+                audioFile = tmp[1];
+                if (renameEmoji)
+                {
+                    //絵文字除去
+                    audioFile = RenameEmojiFile(audioFile);
+                }
+                _list = new List<string>();
+                _list.Add(tmp[0]);//1本のみ
+            }
 
             foreach (string pass in _list)
             {
@@ -212,13 +234,35 @@ namespace EncodeAuto
                     encoded = outDir + @"\" + _noExt + "_" + n.ToString() + safix;
                 } 
                 
-                //出世魚の名前保存
+                //出世魚的に変わる名前保存
                 Org_After_Encoded.Add(pass, after + @"*" + encoded);
 
-                string arg = arguments.Replace(@"%input", @"""" + after + @"""");
+                //コマンドの置き換え
+                string arg = arguments;
+                if (audioFile != ""  )
+                {
+                    //arg = @"ffmpeg  -i %input --cqp 34 --output-res 1280x720 --audio-copy -o %out";
+                    //arg = @"ffmpeg -i %input -i %audio  -c copy -map 0:0 -map 1:1  %out";
+                    //パスにスペースが含まれている場合、コマンドライン引数として正しく解釈されるように、
+                    //パスを二重引用符で囲む必要があります。
+
+                    arg = @"ffmpeg -i %input -i %audio -c copy -map 0:0 -map 1:1 %out";
+
+                    // 置き換え時にパスを二重引用符で囲む
+                    arg = arg.Replace("%audio", "\"" + audioFile + "\"");
+                    //arg = arg.Replace("%input", "\"" + inputFile + "\"");
+                    //arg = arg.Replace("%out", "\"" + outputFile + "\"");
+
+                    //arg = arguments.Replace(@"%audio", @"""" + audioFile + @"""");
+
+                    //音声ファイルの場合はエンコード後のファイル名を変更
+
+                }
+                
+                arg = arg.Replace(@"%input", @"""" + after + @"""");
                 arg = arg.Replace(@"%out", @"""" + encoded + @"""");
                 
-                if (ErrorOutOn)
+                if (ErrorOutOn && (audioFile == ""))
                 {//エラーログ出力
                     arg = arg + @" --log-level error --log " + errorDir + @"\errorlog.txt";
                 }
@@ -228,8 +272,6 @@ namespace EncodeAuto
 
                 //ウエイト1秒
                 AppendTextToFile(batPath, @"timeout /t 1 /nobreak > nul", "UTF-8");
-
-
             }
             //ウエイト2秒
             AppendTextToFile(batPath, @"timeout /t 2 /nobreak > nul", "UTF-8");

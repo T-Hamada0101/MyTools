@@ -269,13 +269,14 @@ namespace yt_dlp_loader
                 OptionsForOutFileName += textBox5.Text.Trim();
             }
             
+            string profileDir = @"dkj5wpar.Suteyo";
 
             OptionsForOutFileName = @"-o """ + OptionsForOutFileName + @".%(ext)s" + @"""";
             AppendTextToFile(configFilePath, OptionsForOutFileName);
             AppendTextToFile(configFilePath, @"- N " + thred.ToString());
             AppendTextToFile(configFilePath, @"--no-mtime");
             AppendTextToFile(configFilePath, @"--console-title");
-            AppendTextToFile(configFilePath, @"--cookies-from-browser firefox");//firefox//chrome
+            AppendTextToFile(configFilePath, $@"--cookies-from-browser firefox:{profileDir}");//firefox//chrome
             AppendTextToFile(configFilePath, @"-a ""H:\_yt-dlp_url.txt""");
             if (checkBox6.Checked)
             {

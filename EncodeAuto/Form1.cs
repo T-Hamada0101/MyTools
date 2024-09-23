@@ -111,6 +111,10 @@ namespace EncodeAuto
             this.AllowDrop = true;//ドロップを受け入れる
             this.DragEnter += new DragEventHandler(ProcDragEnter);
             this.DragDrop += new DragEventHandler(ProcDragDrop);
+            //------------D&Dイベント登録------------
+            listBoxMerge.AllowDrop = true;//ドロップを受け入れる
+            listBoxMerge.DragEnter += new DragEventHandler(ProcDragEnter);
+            listBoxMerge.DragDrop += new DragEventHandler(ProcDragDrop);
 
         }
         public void ProcDragEnter(object? sender, DragEventArgs e)//D&Dイベント
@@ -125,7 +129,15 @@ namespace EncodeAuto
         private void ProcDragDrop(object? sender, DragEventArgs e)//D&Dイベント
         {
             string[] files = ExtractDragDropPath(e);
-            AddListboxItem(files);
+            object _sender = sender;
+            if (_sender is ListBox)
+            {
+                AddListboxItem(_sender, files);
+            }
+            else//form1
+            {
+                AddListboxItem(listBox1, files);
+            }
         }
         /// <summary>
         /// ドロップされたファイルのパス一覧を作成
@@ -156,24 +168,37 @@ namespace EncodeAuto
         /// パスをListboxに重複を許さずに追加（フォルダ内も検索）
         /// </summary>
         /// <param name="files"></param>
-        private void AddListboxItem(string[] files)
+        private void AddListboxItem(object sender, string[] files)
         {
-            // ListBox1 の 既存Items を HashSet に変換する
-            List<string> listbox = listBox1.Items.Cast<string>().ToList();
-            HashSet<string> hashSet = new HashSet<string>(listbox);
+            ListBox listBox = (ListBox)sender;
+            // ListBox の 既存Items を HashSet に変換する
+            List<string> list = listBox.Items.Cast<string>().ToList();
+            HashSet<string> hashSet = new HashSet<string>(list);
 
             //引数分を追加
             List<string> lists = FileUtils.GetAllFilePath(files);
             foreach (string _file in lists)
             {
-                if (!FileUtils.IsMovieFile(_file)) { continue; }
-                hashSet.Add(_file);
+                if (!FileUtils.IsMovieFile(_file)) {
+                    if (FileUtils.IsAudioFile(_file))
+                    {
+                        if (listBox.Name == "listBoxMerge")
+                        {
+                            hashSet.Add(_file);
+                        }else if (MessageBox.Show("音声ファイルですが追加しますか？", "確認", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            hashSet.Add(_file);
+                        }
+                        else { continue; }
+                    }
+                    else { continue; }
+                }else { hashSet.Add(_file); }
             }
 
             if (hashSet.Count > 0)
             {
-                listBox1.Items.Clear();
-                listBox1.Items.AddRange(hashSet.ToArray());
+                listBox.Items.Clear();
+                listBox.Items.AddRange(hashSet.ToArray());
                 //listBox1.Items.AddRange(lists.ToArray());
             }
         }
@@ -313,7 +338,7 @@ namespace EncodeAuto
             string outDir = Dir.Text;
             Properties.Settings.Default.OutputDir = outDir;
             Properties.Settings.Default.Save();
-            AddListboxItem(new string[] { outDir + @"\Input" });
+            AddListboxItem(listBox1,new string[] { outDir + @"\Input" });
         }
 
         private void BT_open_Click(object sender, EventArgs e)
@@ -479,7 +504,7 @@ namespace EncodeAuto
                 {
                     cutTimes.Add(time);
                 }
-                EncodeDeta deta = new EncodeDeta(i, items, false, true, cutTimes);
+                EncodeDeta deta = new EncodeDeta(i, items, false,false, true, cutTimes);
                 Task.Run(() => new Encoder(deta));
                 //listBolからitemsと同じ文字列を削除
                 foreach (string _file in items)
@@ -489,5 +514,48 @@ namespace EncodeAuto
             }
         }
 
+        /// <summary>
+        /// marge 映像と音声をマージ（1setのみ処理）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button2_Click(object sender, EventArgs e)
+        {
+            SetPropeties();
+            // ListBox1 の Items を List<string> に変換する
+            List<string> allList = listBoxMerge.Items.Cast<string>().ToList();
+
+            //リストに映像ファイルsession[0]、音声ファイルsession[1]を1set追加
+            List<string> session = new List<string>();
+            //リストに映像ファイルを追加
+            for (int i = 0; i < allList.Count; i++)
+            {
+                //映像ファイルなら
+                if(FileUtils.IsMovieFile(allList[i])){
+                    session.Add(allList[i]);
+                    break;
+                }
+            }
+            //リストに音声ファイルを追加
+            for (int i = 0; i < allList.Count; i++)
+            {
+                //音声ファイルなら
+                if (FileUtils.IsAudioFile(allList[i]))
+                {
+                    session.Add(allList[i]);
+                    break;
+                }
+            }
+
+            //"映像ファイル名:音声ファイル名"の形式でitemsに追加
+            List<string> items = new List<string>();
+            items.Add(session[0] + ":::" + session[1]);
+            string tmp = items[0];
+            Console.WriteLine(tmp);
+            EncodeDeta deta = new EncodeDeta(0, items, true, true);
+            Task.Run(() => new Encoder(deta));
+            //listBolをクリア
+            listBoxMerge.Items.Clear();
+        }
     }
 }

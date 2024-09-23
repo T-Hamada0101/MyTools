@@ -62,6 +62,8 @@
             numericUpDown1 = new NumericUpDown();
             label6 = new Label();
             panel1 = new Panel();
+            listBoxMerge = new ListBox();
+            button2 = new Button();
             CK_ShortFileName = new CheckBox();
             button1 = new Button();
             textBox1 = new TextBox();
@@ -421,6 +423,8 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(listBoxMerge);
+            panel1.Controls.Add(button2);
             panel1.Controls.Add(CK_ShortFileName);
             panel1.Controls.Add(button1);
             panel1.Controls.Add(textBox1);
@@ -449,6 +453,26 @@
             panel1.Size = new Size(1776, 244);
             panel1.TabIndex = 23;
             // 
+            // listBoxMerge
+            // 
+            listBoxMerge.FormattingEnabled = true;
+            listBoxMerge.HorizontalScrollbar = true;
+            listBoxMerge.ItemHeight = 20;
+            listBoxMerge.Location = new Point(1497, 8);
+            listBoxMerge.Name = "listBoxMerge";
+            listBoxMerge.Size = new Size(237, 164);
+            listBoxMerge.TabIndex = 28;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(1507, 194);
+            button2.Name = "button2";
+            button2.Size = new Size(94, 29);
+            button2.TabIndex = 27;
+            button2.Text = "merge";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // CK_ShortFileName
             // 
             CK_ShortFileName.AutoSize = true;
@@ -462,7 +486,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(1537, 198);
+            button1.Location = new Point(1356, 194);
             button1.Name = "button1";
             button1.Size = new Size(94, 29);
             button1.TabIndex = 24;
@@ -473,10 +497,10 @@
             // textBox1
             // 
             textBox1.Font = new Font("Yu Gothic UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            textBox1.Location = new Point(1380, 20);
+            textBox1.Location = new Point(1347, 11);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(125, 200);
+            textBox1.Size = new Size(125, 166);
             textBox1.TabIndex = 23;
             textBox1.Text = "02:36:20\r\n05:08:35\r\n07:42:50\r\n00:00:00";
             // 
@@ -555,5 +579,7 @@
         private Button button1;
         private TextBox textBox1;
         private CheckBox CK_ShortFileName;
+        private Button button2;
+        private ListBox listBoxMerge;
     }
 }

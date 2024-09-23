@@ -23,7 +23,19 @@ namespace EncodeAuto
             bool isVideo = _type.StartsWith("video/");
             return isVideo;
         }
-
+        /// <summary>
+        /// 音声ファイルを判定
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        internal static bool IsAudioFile(string filePath)
+        {
+            //拡張子の取得:
+            string _ext = Path.GetExtension(filePath);
+            string _type = MimeTypesMap.GetMimeType(_ext);
+            bool isAudio = _type.StartsWith("audio/");
+            return isAudio;
+        }
         // find all imagesin a directory
         internal static List<string> GetImages(string dir)
         {
