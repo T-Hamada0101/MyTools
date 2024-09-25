@@ -367,17 +367,18 @@ namespace EncodeAuto
                     if (!isENcodeSameDir)
                     {
                         string f = encord;
+                        //長いファイル名を省略する
                         if (Properties.Settings.Default.ShortFileName)
                         {
-                            //tergetのファイル名が30文字を超えれば省略する
+                            //tergetのファイル名が50字を超えれば省略する
                             string fName = Path.GetFileName(f);
-                            if (fName.Length > 40)
+                            if (fName.Length > 60)
                             {
                                 //拡張子を除いたファイル名のみ取得
                                 fName = Path.GetFileNameWithoutExtension(f);
                                 //30文字に短縮
 
-                                fName = fName.Substring(0, 30);
+                                fName = fName.Substring(0, 50);
                                 //拡張子を付与
                                 fName += Path.GetExtension(f);
 
