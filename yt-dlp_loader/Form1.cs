@@ -273,7 +273,7 @@ namespace yt_dlp_loader
 
             OptionsForOutFileName = @"-o """ + OptionsForOutFileName + @".%(ext)s" + @"""";
             AppendTextToFile(configFilePath, OptionsForOutFileName);
-            AppendTextToFile(configFilePath, @"- N " + thred.ToString());
+            //AppendTextToFile(configFilePath, @"- N " + thred.ToString());
             AppendTextToFile(configFilePath, @"--no-mtime");
             AppendTextToFile(configFilePath, @"--console-title");
             AppendTextToFile(configFilePath, $@"--cookies-from-browser firefox:{profileDir}");//firefox//chrome
