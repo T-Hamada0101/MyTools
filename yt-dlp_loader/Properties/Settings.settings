@@ -23,6 +23,9 @@
     <Setting Name="AddVideoId" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="AddPrefix1" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
     <Setting Name="AddText1" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>

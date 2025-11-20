@@ -20,6 +20,7 @@ namespace yt_dlp_loader
             settings.AddDownloaderName = options.AddDownloaderName;
             settings.AddVideoId = options.AddVideoId;
             settings.LimitSize720p = options.LimitSize720p;
+            settings.AddPrefix1 = options.CustomPrefix1;
             settings.AddText1 = options.CustomSuffix1;
             settings.AddText2 = options.CustomSuffix2;
             settings.SelectBrowserProfile = options.SelectedBrowserProfile;
@@ -37,23 +38,28 @@ namespace yt_dlp_loader
             File.WriteAllLines(urlFilePath, urls);
         }
 
-        public void RunYtDlp(string exePath, string? arguments = null)
+        public void RunYtDlp(YtDlpOptions options, string? additionalArguments = null)
         {
-            if (string.IsNullOrWhiteSpace(exePath))
+            if (string.IsNullOrWhiteSpace(options.ExePath))
             {
                 return;
             }
 
+            // ユーザーAppDataの設定ファイルを指定
+            var configFilePath = options.EnsureConfigFilePath();
+            var arguments = $@"--config-location ""{configFilePath}""";
+
+            if (!string.IsNullOrWhiteSpace(additionalArguments))
+            {
+                arguments += " " + additionalArguments;
+            }
+
             var startInfo = new ProcessStartInfo
             {
-                FileName = exePath,
+                FileName = options.ExePath,
+                Arguments = arguments,
                 UseShellExecute = true,
             };
-
-            if (!string.IsNullOrWhiteSpace(arguments))
-            {
-                startInfo.Arguments = arguments!;
-            }
 
             Process.Start(startInfo);
         }
@@ -97,27 +103,35 @@ namespace yt_dlp_loader
         private static IEnumerable<string> BuildConfigLines(YtDlpOptions options, string cookiesOption)
         {
             var lines = new List<string>();
-            var outputTemplate = Path.Combine(options.DownloadDirectory, "%(title)s");
+            var fileNameTemplate = "%(title)s";
+
+            // プレフィックスを先頭に追加
+            if (options.UseCustomPrefix1 && !string.IsNullOrWhiteSpace(options.CustomPrefix1))
+            {
+                fileNameTemplate = options.CustomPrefix1.Trim() + fileNameTemplate;
+            }
 
             if (options.AddDownloaderName)
             {
-                outputTemplate += "_%(uploader)s";
+                fileNameTemplate += "_%(uploader)s";
             }
 
             if (options.AddVideoId)
             {
-                outputTemplate += "_%(id)s";
+                fileNameTemplate += "_%(id)s";
             }
 
             if (options.UseCustomSuffix1 && !string.IsNullOrWhiteSpace(options.CustomSuffix1))
             {
-                outputTemplate += options.CustomSuffix1.Trim();
+                fileNameTemplate += options.CustomSuffix1.Trim();
             }
 
             if (options.UseCustomSuffix2 && !string.IsNullOrWhiteSpace(options.CustomSuffix2))
             {
-                outputTemplate += options.CustomSuffix2.Trim();
+                fileNameTemplate += options.CustomSuffix2.Trim();
             }
+
+            var outputTemplate = Path.Combine(options.DownloadDirectory, fileNameTemplate);
 
             lines.Add($@"-o ""{outputTemplate}.%(ext)s""");
             lines.Add("--no-mtime");

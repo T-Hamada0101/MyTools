@@ -39,10 +39,14 @@ namespace yt_dlp_loader
             checkBox3.Checked = Properties.Settings.Default.AddDownloaderName;
             checkBox2.Checked = Properties.Settings.Default.AddVideoId;
             checkBox6.Checked = Properties.Settings.Default.LimitSize720p;
+            textBox1.Text = Properties.Settings.Default.AddPrefix1;
             textBox4.Text = Properties.Settings.Default.AddText1;
             textBox5.Text = Properties.Settings.Default.AddText2;
             SelectBrowserProfile(Properties.Settings.Default.SelectBrowserProfile);
-            configFilePath = Properties.Settings.Default.ExePath?.Replace("yt-dlp.exe", "yt-dlp.conf") ?? string.Empty;
+            
+            // ユーザーAppDataフォルダの設定ファイルパスを取得
+            var tempOptions = new YtDlpOptions { ExePath = Properties.Settings.Default.ExePath ?? string.Empty };
+            configFilePath = tempOptions.EnsureConfigFilePath();
             if (File.Exists(configFilePath))
             {
                 ShowConfigFile(configFilePath);
@@ -150,7 +154,7 @@ namespace yt_dlp_loader
             List<string> urls = listBox1.Items.Cast<string>().ToList();
             ytDlpService.WriteUrlFile(options.UrlFilePath, urls);
 
-            ytDlpService.RunYtDlp(options.ExePath);
+            ytDlpService.RunYtDlp(options);
             RunBrowser(urls, options);
             listBox1.Items.Clear();
         }
@@ -232,6 +236,11 @@ namespace yt_dlp_loader
             return Process.Start(pi);
         }
 
+        /// <summary>
+        /// 設定ファイル保存ボタン
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
             SaveSetting();
@@ -242,6 +251,9 @@ namespace yt_dlp_loader
 
         }
 
+        /// <summary>
+        /// フォルダを開くボタン
+        /// </summary>
         private void button3_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("EXPLORER.EXE", Settings.Default.DownloadDirectory);
@@ -262,14 +274,26 @@ namespace yt_dlp_loader
             OprnUrl("https://www.youtube.com/");
         }
 
+        /// <summary>
+        /// Listの１番目を yt-dlp で実行
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button5_Click(object sender, EventArgs e)
         {
             // ListBox1 の Items を List<string> に変換
             List<string> urls = listBox1.Items.Cast<string>().ToList();
             string _command = textBoxExePath.Text;
             string _arguments = $" -f bestvideo+bestaudio {urls[0]}";
-
-            Process.Start(_command, _arguments);
+            try
+            {
+                Process.Start(_command, _arguments);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            listBox1.Items.RemoveAt(0);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -298,6 +322,8 @@ namespace yt_dlp_loader
                 AddDownloaderName = checkBox3.Checked,
                 AddVideoId = checkBox2.Checked,
                 LimitSize720p = checkBox6.Checked,
+                UseCustomPrefix1 = checkBox7.Checked,
+                CustomPrefix1 = textBox1.Text,
                 UseCustomSuffix1 = checkBox4.Checked,
                 CustomSuffix1 = textBox4.Text,
                 UseCustomSuffix2 = checkBox5.Checked,

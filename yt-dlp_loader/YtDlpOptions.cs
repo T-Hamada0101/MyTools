@@ -1,7 +1,9 @@
 using System;
+using System.IO;
 
 namespace yt_dlp_loader
 {
+    //設定ファイルは %LOCALAPPDATA%\yt-dlp_loader\yt-dlp.conf に保存されます。
     internal class YtDlpOptions
     {
         public string ExePath { get; init; } = string.Empty;
@@ -13,6 +15,8 @@ namespace yt_dlp_loader
         public bool AddDownloaderName { get; init; }
         public bool AddVideoId { get; init; }
         public bool LimitSize720p { get; init; }
+        public bool UseCustomPrefix1 { get; init; }
+        public string CustomPrefix1 { get; init; } = string.Empty;
         public bool UseCustomSuffix1 { get; init; }
         public string CustomSuffix1 { get; init; } = string.Empty;
         public bool UseCustomSuffix2 { get; init; }
@@ -21,12 +25,12 @@ namespace yt_dlp_loader
 
         public string EnsureConfigFilePath()
         {
-            if (string.IsNullOrWhiteSpace(ExePath))
-            {
-                return string.Empty;
-            }
-
-            return ExePath.Replace("yt-dlp.exe", "yt-dlp.conf", StringComparison.OrdinalIgnoreCase);
+            // ユーザーのAppData\Local\yt-dlp_loaderフォルダに設定ファイルを保存
+            // これにより、Program Filesなどの保護されたディレクトリでも書き込み可能
+            var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            var configDir = Path.Combine(appDataPath, "yt-dlp_loader");
+            Directory.CreateDirectory(configDir);
+            return Path.Combine(configDir, "yt-dlp.conf");
         }
     }
 }

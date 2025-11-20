@@ -55,6 +55,10 @@
             textBoxDLFolder = new TextBox();
             comboBox1 = new ComboBox();
             textBoxConfigFile = new TextBox();
+            label7 = new Label();
+            checkBox7 = new CheckBox();
+            textBox1 = new TextBox();
+            label8 = new Label();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
             // 
@@ -129,7 +133,7 @@
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(763, 179);
+            textBox3.Location = new Point(761, 182);
             textBox3.Margin = new Padding(4, 3, 4, 3);
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(134, 31);
@@ -210,16 +214,16 @@
             // 
             // textBox4
             // 
-            textBox4.Location = new Point(506, 273);
+            textBox4.Location = new Point(412, 267);
             textBox4.Margin = new Padding(4, 3, 4, 3);
             textBox4.Name = "textBox4";
-            textBox4.Size = new Size(203, 31);
+            textBox4.Size = new Size(389, 31);
             textBox4.TabIndex = 15;
             // 
             // checkBox4
             // 
             checkBox4.AutoSize = true;
-            checkBox4.Location = new Point(476, 277);
+            checkBox4.Location = new Point(382, 271);
             checkBox4.Margin = new Padding(4, 3, 4, 3);
             checkBox4.Name = "checkBox4";
             checkBox4.Size = new Size(22, 21);
@@ -229,17 +233,17 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(224, 273);
+            label5.Location = new Point(28, 267);
             label5.Margin = new Padding(4, 0, 4, 0);
             label5.Name = "label5";
-            label5.Size = new Size(235, 25);
+            label5.Size = new Size(286, 25);
             label5.TabIndex = 18;
-            label5.Text = "DLファイル名に次の文字を付加";
+            label5.Text = "DLファイル名の最後に次の文字を付加";
             // 
             // checkBox5
             // 
             checkBox5.AutoSize = true;
-            checkBox5.Location = new Point(718, 277);
+            checkBox5.Location = new Point(831, 271);
             checkBox5.Margin = new Padding(4, 3, 4, 3);
             checkBox5.Name = "checkBox5";
             checkBox5.Size = new Size(22, 21);
@@ -248,7 +252,7 @@
             // 
             // textBox5
             // 
-            textBox5.Location = new Point(748, 273);
+            textBox5.Location = new Point(861, 267);
             textBox5.Margin = new Padding(4, 3, 4, 3);
             textBox5.Name = "textBox5";
             textBox5.Size = new Size(183, 31);
@@ -278,12 +282,12 @@
             // 
             // button5
             // 
-            button5.Location = new Point(1273, 36);
+            button5.Location = new Point(1286, 617);
             button5.Margin = new Padding(4, 3, 4, 3);
             button5.Name = "button5";
             button5.Size = new Size(154, 37);
             button5.TabIndex = 23;
-            button5.Text = "1 movie";
+            button5.Text = "1 movie DL";
             button5.UseVisualStyleBackColor = true;
             button5.Click += button5_Click;
             // 
@@ -316,11 +320,49 @@
             // 
             // textBoxConfigFile
             // 
-            textBoxConfigFile.Location = new Point(14, 617);
+            textBoxConfigFile.Location = new Point(14, 655);
             textBoxConfigFile.Multiline = true;
             textBoxConfigFile.Name = "textBoxConfigFile";
-            textBoxConfigFile.Size = new Size(1426, 316);
+            textBoxConfigFile.Size = new Size(636, 278);
             textBoxConfigFile.TabIndex = 27;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(14, 627);
+            label7.Margin = new Padding(4, 0, 4, 0);
+            label7.Name = "label7";
+            label7.Size = new Size(96, 25);
+            label7.TabIndex = 28;
+            label7.Text = "yt-dlp設定";
+            // 
+            // checkBox7
+            // 
+            checkBox7.AutoSize = true;
+            checkBox7.Location = new Point(382, 238);
+            checkBox7.Margin = new Padding(4, 3, 4, 3);
+            checkBox7.Name = "checkBox7";
+            checkBox7.Size = new Size(22, 21);
+            checkBox7.TabIndex = 30;
+            checkBox7.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(412, 234);
+            textBox1.Margin = new Padding(4, 3, 4, 3);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(389, 31);
+            textBox1.TabIndex = 29;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(28, 234);
+            label8.Margin = new Padding(4, 0, 4, 0);
+            label8.Name = "label8";
+            label8.Size = new Size(286, 25);
+            label8.TabIndex = 31;
+            label8.Text = "DLファイル名の最初に次の文字を付加";
             // 
             // Form1
             // 
@@ -328,6 +370,10 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1457, 955);
+            Controls.Add(label8);
+            Controls.Add(checkBox7);
+            Controls.Add(textBox1);
+            Controls.Add(label7);
             Controls.Add(textBoxConfigFile);
             Controls.Add(comboBox1);
             Controls.Add(label6);
@@ -393,5 +439,9 @@
         private TextBox textBoxDLFolder;
         private ComboBox comboBox1;
         private TextBox textBoxConfigFile;
+        private Label label7;
+        private CheckBox checkBox7;
+        private TextBox textBox1;
+        private Label label8;
     }
 }

@@ -110,6 +110,18 @@ namespace yt_dlp_loader.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AddPrefix1 {
+            get {
+                return ((string)(this["AddPrefix1"]));
+            }
+            set {
+                this["AddPrefix1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string AddText1 {
             get {
                 return ((string)(this["AddText1"]));
