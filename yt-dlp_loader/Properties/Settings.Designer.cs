@@ -142,5 +142,29 @@ namespace yt_dlp_loader.Properties {
                 this["LimitSize720p"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DownloadDirectory {
+            get {
+                return ((string)(this["DownloadDirectory"]));
+            }
+            set {
+                this["DownloadDirectory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SelectBrowserProfile {
+            get {
+                return ((string)(this["SelectBrowserProfile"]));
+            }
+            set {
+                this["SelectBrowserProfile"] = value;
+            }
+        }
     }
 }

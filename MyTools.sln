@@ -11,7 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyExcelReader", "MyExcelRea
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_Copilot", "_Copilot\_Copilot.csproj", "{0DB4B3D2-FA75-4D5C-9F0E-A0D900D0A5D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieCut", "MovieCut\MovieCut.csproj", "{44EC856D-5D99-43F6-A5FC-2BD62E03A2D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieCut", "MovieCut\MovieCut.csproj", "{44EC856D-5D99-43F6-A5FC-2BD62E03A2D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HDD_Info", "HDD_Info\HDD_Info.csproj", "{378F1063-7CC6-437C-AD2C-327A9F91D8E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{44EC856D-5D99-43F6-A5FC-2BD62E03A2D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44EC856D-5D99-43F6-A5FC-2BD62E03A2D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44EC856D-5D99-43F6-A5FC-2BD62E03A2D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{378F1063-7CC6-437C-AD2C-327A9F91D8E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{378F1063-7CC6-437C-AD2C-327A9F91D8E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{378F1063-7CC6-437C-AD2C-327A9F91D8E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{378F1063-7CC6-437C-AD2C-327A9F91D8E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
