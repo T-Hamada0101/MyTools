@@ -11,7 +11,6 @@ namespace yt_dlp_loader
     public partial class Form1 : Form
     {
         private readonly YtDlpService ytDlpService = new();
-        private string profileDir = @"dkj5wpar.Suteyo";
         private string configFilePath = string.Empty;
 
         public Form1()
@@ -20,9 +19,7 @@ namespace yt_dlp_loader
             AddDropEvents();
 
             // comboBox1 にブラウザ候補を追加
-            comboBox1.Items.Add("Firefox PPP");
-            comboBox1.Items.Add("Firefox");
-            comboBox1.Items.Add("Chrome");
+            comboBox1.Items.AddRange(Browser.GetProfileDisplayNames());
 
             //this.TopMost = true;
             LoadProperties();
@@ -43,7 +40,7 @@ namespace yt_dlp_loader
             textBox4.Text = Properties.Settings.Default.AddText1;
             textBox5.Text = Properties.Settings.Default.AddText2;
             SelectBrowserProfile(Properties.Settings.Default.SelectBrowserProfile);
-            
+
             // ユーザーAppDataフォルダの設定ファイルパスを取得
             var tempOptions = new YtDlpOptions { ExePath = Properties.Settings.Default.ExePath ?? string.Empty };
             configFilePath = tempOptions.EnsureConfigFilePath();
@@ -195,31 +192,12 @@ namespace yt_dlp_loader
         }
         private Process? OprnUrl(string url)
         {
-            // ブラウザ起動時に -P "profile_name" を付与する想定
+            // ブラウザ起動時に -P "profile_name" を付与する
             if (string.IsNullOrEmpty(url))
             {
                 return null;
             }
-            ProcessStartInfo pi = new ProcessStartInfo();
-
-            string selectedBrowser = comboBox1.SelectedItem as string ?? "Firefox";
-            switch (selectedBrowser)
-            {
-                case "Firefox":
-                case "Firefox PPP":
-                    pi.FileName = @"C:\Program Files\Mozilla Firefox\firefox.exe";
-                    pi.Arguments = $"-P \"{profileDir}\" \"{url}\"";
-                    break;
-                case "Chrome":
-                    pi.FileName = "chrome.exe";
-                    pi.Arguments = $"--profile-directory=\"{profileDir}\" \"{url}\"";
-                    break;
-                default:
-                    pi.FileName = "firefox.exe";
-                    pi.Arguments = $"-P \"{profileDir}\" \"{url}\"";
-                    break;
-            }
-            pi.UseShellExecute = false;
+            ProcessStartInfo pi = Browser.CreateProcessStartInfo(url, comboBox1.SelectedItem as string);
             //pi.RedirectStandardOutput = true;
             //pi.CreateNoWindow = true;
             //pi.RedirectStandardError = true;
@@ -329,7 +307,7 @@ namespace yt_dlp_loader
                 CustomSuffix1 = textBox4.Text,
                 UseCustomSuffix2 = checkBox5.Checked,
                 CustomSuffix2 = textBox5.Text,
-                SelectedBrowserProfile = comboBox1.SelectedItem as string ?? "Firefox"
+                SelectedBrowserProfile = Browser.ResolveProfileName(comboBox1.SelectedItem as string)
             };
         }
 
@@ -341,22 +319,34 @@ namespace yt_dlp_loader
                 return;
             }
 
-            string cookiesOption = ytDlpService.GetCookiesOption(options.SelectedBrowserProfile, out profileDir);
+            string cookiesOption = ytDlpService.GetCookiesOption(options.SelectedBrowserProfile);
             ytDlpService.WriteConfigFile(configFilePath, options, cookiesOption);
             ShowConfigFile(configFilePath);
         }
 
         private void SelectBrowserProfile(string? profileName)
         {
-            if (string.IsNullOrEmpty(profileName))
+            if (comboBox1.Items.Count == 0)
+            {
+                comboBox1.SelectedIndex = -1;
+                return;
+            }
+
+            string targetProfile = Browser.ResolveProfileName(profileName);
+            if (string.IsNullOrEmpty(targetProfile))
             {
                 comboBox1.SelectedIndex = 0;
                 return;
             }
 
-            int index = comboBox1.Items.IndexOf(profileName);
+            int index = comboBox1.Items.IndexOf(targetProfile);
             comboBox1.SelectedIndex = index >= 0 ? index : 0;
         }
 
+        private void buttonUpdate_Click(object sender, EventArgs e)
+        {
+            // yt-dlp -Uを管理者権限で実行
+            yt_dlp.UpdateYtDlp();
+        }
     }
 }

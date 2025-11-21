@@ -76,29 +76,7 @@ namespace yt_dlp_loader
             File.WriteAllLines(configFilePath, lines);
         }
 
-        public string GetCookiesOption(string? selectedBrowser, out string profileDir)
-        {
-            string browser = "firefox";
-            profileDir = @"dkj5wpar.Suteyo";
-
-            switch (selectedBrowser)
-            {
-                case "Firefox":
-                    browser = "firefox";
-                    profileDir = @"19cp24ya.default-release-1";
-                    break;
-                case "Firefox PPP":
-                    browser = "firefox";
-                    profileDir = @"dkj5wpar.Suteyo";
-                    break;
-                case "Chrome":
-                    browser = "chrome";
-                    profileDir = @"Profile 2";
-                    break;
-            }
-
-            return $@"--cookies-from-browser {browser}:{profileDir}";
-        }
+        public string GetCookiesOption(string? selectedBrowser) => Browser.GetCookiesOption(selectedBrowser);
 
         private static IEnumerable<string> BuildConfigLines(YtDlpOptions options, string cookiesOption)
         {

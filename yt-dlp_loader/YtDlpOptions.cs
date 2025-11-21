@@ -21,7 +21,7 @@ namespace yt_dlp_loader
         public string CustomSuffix1 { get; init; } = string.Empty;
         public bool UseCustomSuffix2 { get; init; }
         public string CustomSuffix2 { get; init; } = string.Empty;
-        public string SelectedBrowserProfile { get; init; } = "Firefox";
+        public string SelectedBrowserProfile { get; init; } = Browser.DefaultProfileName;
 
         public string EnsureConfigFilePath()
         {

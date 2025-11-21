@@ -59,6 +59,7 @@
             checkBox7 = new CheckBox();
             textBox1 = new TextBox();
             label8 = new Label();
+            buttonUpdate = new Button();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
             // 
@@ -364,12 +365,23 @@
             label8.TabIndex = 31;
             label8.Text = "DLファイル名の最初に次の文字を付加";
             // 
+            // buttonUpdate
+            // 
+            buttonUpdate.Location = new Point(1224, 22);
+            buttonUpdate.Name = "buttonUpdate";
+            buttonUpdate.Size = new Size(124, 34);
+            buttonUpdate.TabIndex = 32;
+            buttonUpdate.Text = "Update";
+            buttonUpdate.UseVisualStyleBackColor = true;
+            buttonUpdate.Click += buttonUpdate_Click;
+            // 
             // Form1
             // 
             AllowDrop = true;
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1457, 955);
+            Controls.Add(buttonUpdate);
             Controls.Add(label8);
             Controls.Add(checkBox7);
             Controls.Add(textBox1);
@@ -443,5 +455,6 @@
         private CheckBox checkBox7;
         private TextBox textBox1;
         private Label label8;
+        private Button buttonUpdate;
     }
 }

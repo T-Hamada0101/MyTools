@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using yt_dlp_loader.Properties;
 
 namespace yt_dlp_loader
 {
@@ -61,6 +62,20 @@ namespace yt_dlp_loader
             // 標準エラーの読み取りを開始
             process.BeginErrorReadLine();
             // プロセスの終了を待機
+            process.WaitForExit();
+        }
+        public static void UpdateYtDlp()
+        {
+            // yt-dlpを更新するための引数
+            string updateArguments = "-U";
+
+            // yt-dlp.exeを管理者として実行するための設定
+            Process process = new Process();
+            process.StartInfo.FileName = Settings.Default.ExePath;
+            process.StartInfo.Arguments = updateArguments;
+            process.StartInfo.Verb = "runas"; // 管理者として実行
+            process.StartInfo.UseShellExecute = true; // これが必要
+            process.Start();
             process.WaitForExit();
         }
     }
