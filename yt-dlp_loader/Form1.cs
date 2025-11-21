@@ -179,9 +179,10 @@ namespace yt_dlp_loader
         }
 
         /// <summary>
-        /// コンフィグファイルの更新（存在しない場合は作成）
+        /// 
         /// </summary>
-        /// <param name="configFilePath"></param>
+        /// <param name="urls"></param>
+        /// <param name="options"></param>
         private void RunBrowser(List<string> urls, YtDlpOptions options)
         {
             if (!options.IsOpenUrl) return;
@@ -207,7 +208,7 @@ namespace yt_dlp_loader
                 case "Firefox":
                 case "Firefox PPP":
                     pi.FileName = @"C:\Program Files\Mozilla Firefox\firefox.exe";
-                    //pi.Arguments = $"-P \"{profileDir}\" \"{url}\"";
+                    pi.Arguments = $"-P \"{profileDir}\" \"{url}\"";
                     break;
                 case "Chrome":
                     pi.FileName = "chrome.exe";
