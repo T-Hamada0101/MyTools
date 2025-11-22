@@ -69,6 +69,12 @@ namespace yt_dlp_loader
                 StandardErrorEncoding = Encoding.UTF8
             };
 
+            // yt-dlpがUTF-8で出力するように環境変数を設定
+            startInfo.EnvironmentVariables["PYTHONIOENCODING"] = "utf-8";
+            startInfo.EnvironmentVariables["PYTHONLEGACYWINDOWSSTDIO"] = "0";
+            // Windows 10以降でコンソールのコードページをUTF-8に設定
+            startInfo.EnvironmentVariables["PYTHONUTF8"] = "1";
+
             var process = new Process
             {
                 StartInfo = startInfo

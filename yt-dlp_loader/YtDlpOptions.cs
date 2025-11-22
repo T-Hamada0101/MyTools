@@ -26,7 +26,8 @@ namespace yt_dlp_loader
         public string EnsureConfigFilePath()
         {
             // ユーザーのAppData\Local\yt-dlp_loaderフォルダに設定ファイルを保存
-            // これにより、Program Filesなどの保護されたディレクトリでも書き込み可能
+            //"C:\Users\{user}\AppData\Local\yt-dlp_loader\yt-dlp.conf"
+            // これにより、Program Filesなどの保護されたディレクトリを用いず書き込み可能
             var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             var configDir = Path.Combine(appDataPath, "yt-dlp_loader");
             Directory.CreateDirectory(configDir);

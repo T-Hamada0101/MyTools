@@ -23,7 +23,19 @@ namespace yt_dlp_loader
             // メソッド呼び出し
             yt_dlp.RunYtDlpCore(arguments, OutputHandler, ErrorHandler);
         }
-
+        public static void RunYtDlpCore(string arguments)
+        {
+            // 新しいプロセスを作成
+            var process = new Process();
+            // 実行するファイル名を設定
+            process.StartInfo.FileName = "yt-dlp_loader.exe";
+            // コマンドライン引数を設定
+            process.StartInfo.Arguments = arguments;
+            // プロセスを開始
+            process.Start();
+            // プロセスの終了を待機
+            process.WaitForExit();
+        }
         // RunYtDlp メソッドを定義、引数としてコマンドライン引数、出力ハンドラ、エラーハンドラを受け取る
         public static void RunYtDlpCore(string arguments, Action<string> outputHandler, Action<string> errorHandler)
         {
