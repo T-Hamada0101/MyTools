@@ -151,9 +151,57 @@ namespace yt_dlp_loader
             List<string> urls = listBox1.Items.Cast<string>().ToList();
             ytDlpService.WriteUrlFile(options.UrlFilePath, urls);
 
-            ytDlpService.RunYtDlp(options);
+            // textBoxConsoleをクリア
+            if (textBoxConsole.InvokeRequired)
+            {
+                textBoxConsole.Invoke(new Action(() => textBoxConsole.Clear()));
+            }
+            else
+            {
+                textBoxConsole.Clear();
+            }
+
+            // 出力ハンドラを設定
+            Action<string> outputHandler = (data) =>
+            {
+                if (textBoxConsole.InvokeRequired)
+                {
+                    textBoxConsole.Invoke(new Action(() => AppendToConsole(data)));
+                }
+                else
+                {
+                    AppendToConsole(data);
+                }
+            };
+
+            Action<string> errorHandler = (data) =>
+            {
+                if (textBoxConsole.InvokeRequired)
+                {
+                    textBoxConsole.Invoke(new Action(() => AppendToConsole(data)));
+                }
+                else
+                {
+                    AppendToConsole(data);
+                }
+            };
+
+            ytDlpService.RunYtDlp(options, null, outputHandler, errorHandler);
             RunBrowser(urls, options);
             listBox1.Items.Clear();
+        }
+
+        private void AppendToConsole(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return;
+            }
+
+            textBoxConsole.AppendText(text + Environment.NewLine);
+            // 自動スクロール
+            textBoxConsole.SelectionStart = textBoxConsole.Text.Length;
+            textBoxConsole.ScrollToCaret();
         }
 
         // ブラウザ cookie の設定をドロップダウンで切り替える

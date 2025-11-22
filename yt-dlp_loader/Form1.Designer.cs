@@ -60,6 +60,7 @@
             textBox1 = new TextBox();
             label8 = new Label();
             buttonUpdate = new Button();
+            textBoxConsole = new TextBox();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
             // 
@@ -375,12 +376,22 @@
             buttonUpdate.UseVisualStyleBackColor = true;
             buttonUpdate.Click += buttonUpdate_Click;
             // 
+            // textBoxConsole
+            // 
+            textBoxConsole.Location = new Point(666, 655);
+            textBoxConsole.Multiline = true;
+            textBoxConsole.Name = "textBoxConsole";
+            textBoxConsole.ScrollBars = ScrollBars.Vertical;
+            textBoxConsole.Size = new Size(636, 278);
+            textBoxConsole.TabIndex = 33;
+            // 
             // Form1
             // 
             AllowDrop = true;
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1457, 955);
+            Controls.Add(textBoxConsole);
             Controls.Add(buttonUpdate);
             Controls.Add(label8);
             Controls.Add(checkBox7);
@@ -456,5 +467,6 @@
         private TextBox textBox1;
         private Label label8;
         private Button buttonUpdate;
+        private TextBox textBoxConsole;
     }
 }

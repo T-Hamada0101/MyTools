@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using yt_dlp_loader.Properties;
 
 namespace yt_dlp_loader
@@ -38,7 +41,7 @@ namespace yt_dlp_loader
             File.WriteAllLines(urlFilePath, urls);
         }
 
-        public void RunYtDlp(YtDlpOptions options, string? additionalArguments = null)
+        public void RunYtDlp(YtDlpOptions options, string? additionalArguments = null, Action<string>? outputHandler = null, Action<string>? errorHandler = null)
         {
             if (string.IsNullOrWhiteSpace(options.ExePath))
             {
@@ -58,10 +61,51 @@ namespace yt_dlp_loader
             {
                 FileName = options.ExePath,
                 Arguments = arguments,
-                UseShellExecute = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true,
+                StandardOutputEncoding = Encoding.UTF8,
+                StandardErrorEncoding = Encoding.UTF8
             };
 
-            Process.Start(startInfo);
+            var process = new Process
+            {
+                StartInfo = startInfo
+            };
+
+            if (outputHandler != null)
+            {
+                process.OutputDataReceived += (sender, e) =>
+                {
+                    if (!string.IsNullOrEmpty(e.Data))
+                    {
+                        outputHandler(e.Data);
+                    }
+                };
+            }
+
+            if (errorHandler != null)
+            {
+                process.ErrorDataReceived += (sender, e) =>
+                {
+                    if (!string.IsNullOrEmpty(e.Data))
+                    {
+                        errorHandler(e.Data);
+                    }
+                };
+            }
+
+            process.Start();
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+
+            // 非同期で実行（UIをブロックしない）
+            Task.Run(() =>
+            {
+                process.WaitForExit();
+                process.Dispose();
+            });
         }
 
         public void WriteConfigFile(string configFilePath, YtDlpOptions options, string cookiesOption)

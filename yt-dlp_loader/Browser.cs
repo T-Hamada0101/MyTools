@@ -11,25 +11,26 @@ namespace yt_dlp_loader
         /// </summary>
         /// string: プロファイル表示名
         /// string browser: ブラウザ名
-        /// string profileDir: プロファイルディレクトリ名
-        private static readonly Dictionary<string, (string browser, string profileDir)> browserProfiles = new()
+        /// string profileName: プロファイル名 ブラウザコマンド起動時の引数用
+        /// string profileDir: プロファイルディレクトリ名 yt_dlpに渡す用
+        private static readonly Dictionary<string, (string browser, string profileName, string profileDir)> browserProfiles = new()
         {
             //firefoxでプロファイルを確認するには about:profiles
             //chromeでプロファイルを確認するには chrome://version/
-            { "default", ("firefox", "default-release") },
-            { "Firefox ZZ", ("firefox", "default-release") },
-            { "Firefox Suteyo", ("firefox", "Suteyo") },
-            { "Chrome ZZ", ("chrome", "Default") },
-            { "Chrome Suteyo", ("chrome", "Profile 2") }
+            { "default", ("firefox", "default-release", "xltthzbp.default-release") },
+            { "Firefox ZZ", ("firefox", "default-release", "xltthzbp.default-release") },
+            { "Firefox Suteyo", ("firefox", "Suteyo", "dkj5wpar.Suteyo") },
+            { "Chrome ZZ", ("chrome", "Default", "Default") },
+            { "Chrome Suteyo", ("chrome", "Profile 2", "Profile 2") }
         };
 
-        internal static IReadOnlyDictionary<string, (string browser, string profileDir)> BrowserProfiles => browserProfiles;
+        internal static IReadOnlyDictionary<string, (string browser, string profileName, string profileDir)> BrowserProfiles => browserProfiles;
 
         internal static string[] GetProfileDisplayNames() => BrowserProfiles.Keys.ToArray();
 
         internal static string DefaultProfileName => BrowserProfiles.Keys.FirstOrDefault() ?? string.Empty;
 
-        internal static (string browser, string profileDir) GetProfileOrDefault(string? profileName)
+        internal static (string browser, string profileName, string profileDir) GetProfileOrDefault(string? profileName)
         {
             if (!string.IsNullOrWhiteSpace(profileName) && BrowserProfiles.TryGetValue(profileName, out var profile))
             {
@@ -41,12 +42,12 @@ namespace yt_dlp_loader
                 return defaultProfile;
             }
 
-            return ("firefox", "default-release");
+            return ("firefox", "default-release", "xltthzbp.default-release");
         }
 
         internal static string GetCookiesOption(string? selectedBrowser)
         {
-            var (browser, profileDir) = GetProfileOrDefault(selectedBrowser);
+            var (browser, _, profileDir) = GetProfileOrDefault(selectedBrowser);
             return $@"--cookies-from-browser {browser}:{profileDir}";
         }
 
@@ -67,7 +68,7 @@ namespace yt_dlp_loader
                 throw new ArgumentException("url must not be null or empty.", nameof(url));
             }
 
-            var (browser, profileDir) = GetProfileOrDefault(profileName);
+            var (browser, resolvedProfileName, profileDir) = GetProfileOrDefault(profileName);
             var startInfo = new ProcessStartInfo
             {
                 UseShellExecute = false
@@ -81,7 +82,7 @@ namespace yt_dlp_loader
                     break;
                 default:
                     startInfo.FileName = @"C:\Program Files\Mozilla Firefox\firefox.exe";
-                    startInfo.Arguments = $"-P \"{profileDir}\" \"{url}\"";
+                    startInfo.Arguments = $"-P \"{resolvedProfileName}\" \"{url}\"";
                     break;
             }
 
