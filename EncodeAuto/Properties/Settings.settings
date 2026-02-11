@@ -1,0 +1,33 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="EncodeAuto.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ExePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">D:\ProgramOther\QSVEncC\QSVEnc_7.24\EndodeAuto.bat</Value>
+    </Setting>
+    <Setting Name="Arguments" Type="System.String" Scope="User">
+      <Value Profile="(Default)">QSVEncC64.exe --avsw -i %input --cqp 34  --quality best -c h264 --audio-copy -o %out34.mp4</Value>
+    </Setting>
+    <Setting Name="Safix" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.mp4</Value>
+    </Setting>
+    <Setting Name="OutputDir" Type="System.String" Scope="User">
+      <Value Profile="(Default)">D:\_EncodeOut</Value>
+    </Setting>
+    <Setting Name="MoveComp" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Pause" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ActiveRedioBox" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="SameDirOutput" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ShortFileName" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
