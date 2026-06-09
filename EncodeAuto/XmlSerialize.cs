@@ -19,6 +19,7 @@ namespace EncodeAuto
         public bool[] pauseCMD = new bool[12];
         public bool[] sameDirOutput = new bool[12];
         public bool[] shortFileName = new bool[12];
+        public bool[] audioNormalize = new bool[12];
     }
     internal class XmlSerialize
     {

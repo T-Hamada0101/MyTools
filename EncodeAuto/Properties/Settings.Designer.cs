@@ -131,5 +131,17 @@ namespace EncodeAuto.Properties {
                 this["ShortFileName"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AudioNormalize {
+            get {
+                return ((bool)(this["AudioNormalize"]));
+            }
+            set {
+                this["AudioNormalize"] = value;
+            }
+        }
     }
 }

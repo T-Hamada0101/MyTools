@@ -65,6 +65,7 @@
             listBoxMerge = new ListBox();
             button2 = new Button();
             CK_ShortFileName = new CheckBox();
+            CK_AudioNormalize = new CheckBox();
             button1 = new Button();
             textBox1 = new TextBox();
             tableLayoutPanel1 = new TableLayoutPanel();
@@ -468,6 +469,7 @@
             panel1.Controls.Add(listBoxMerge);
             panel1.Controls.Add(button2);
             panel1.Controls.Add(CK_ShortFileName);
+            panel1.Controls.Add(CK_AudioNormalize);
             panel1.Controls.Add(button1);
             panel1.Controls.Add(textBox1);
             panel1.Controls.Add(PresetName);
@@ -529,6 +531,18 @@
             CK_ShortFileName.Text = "長いファイル名を省略する";
             CK_ShortFileName.UseVisualStyleBackColor = true;
             CK_ShortFileName.CheckedChanged += CK_ShortFileName_CheckedChanged;
+            //
+            // CK_AudioNormalize
+            //
+            CK_AudioNormalize.AutoSize = true;
+            CK_AudioNormalize.Location = new Point(511, 220);
+            CK_AudioNormalize.Margin = new Padding(4, 4, 4, 4);
+            CK_AudioNormalize.Name = "CK_AudioNormalize";
+            CK_AudioNormalize.Size = new Size(183, 29);
+            CK_AudioNormalize.TabIndex = 33;
+            CK_AudioNormalize.Text = "音量を最適化する";
+            CK_AudioNormalize.UseVisualStyleBackColor = true;
+            CK_AudioNormalize.CheckedChanged += CK_AudioNormalize_CheckedChanged;
             // 
             // button1
             // 
@@ -639,6 +653,7 @@
             Margin = new Padding(4, 4, 4, 4);
             Name = "Form1";
             Text = "Form1";
+            Load += Form1_AudioNormalize_Load;
             FormClosing += Form1_FormClosing;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
@@ -691,6 +706,7 @@
         private Button button1;
         private TextBox textBox1;
         private CheckBox CK_ShortFileName;
+        private CheckBox CK_AudioNormalize;
         private Button button2;
         private ListBox listBoxMerge;
         private GroupBox groupBox2;

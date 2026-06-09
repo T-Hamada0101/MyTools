@@ -12,6 +12,8 @@ using HeyRed.Mime;
 using System.Threading;
 using Microsoft.VisualBasic.Devices;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
+using System.Globalization;
 //using System.Net.Mime;
 //using Microsoft.WindowsAPICodePack.Shell;
 //using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
@@ -20,6 +22,10 @@ namespace EncodeAuto
 {
     internal class EncodeDeta
     {
+        private const string AudioNormalizeFilter = "loudnorm=I=-16:TP=-1.5:LRA=11:print_format=summary";
+        private const double AudioNormalizeTargetIntegrated = -16.0;
+        private static readonly object AudioNormalizeSummaryLock = new object();
+
         /// <summary>
         /// 対象ファイルlist
         /// </summary>
@@ -44,6 +50,8 @@ namespace EncodeAuto
         public string baseDir = "";
         public string CompressedOutDir = "";
         public string FatCompressedOut = "";
+        public bool isAudioNormalize = false;
+        public string audioNormalizeLogDir = "";
 
         private string inputDir;
         private string finishedOriginalDir;
@@ -56,6 +64,7 @@ namespace EncodeAuto
             safix = Properties.Settings.Default.Safix;
             isENcodeSameDir = Properties.Settings.Default.SameDirOutput;
             isMoveOrg = Properties.Settings.Default.MoveComp;
+            isAudioNormalize = Properties.Settings.Default.AudioNormalize;
             baseDir = Properties.Settings.Default.OutputDir;
 
             bat2Path = batPath.Replace(".bat", "2.bat");
@@ -64,12 +73,17 @@ namespace EncodeAuto
             CompressedOutDir = baseDir + @"\CompressedOut";
             FatCompressedOut = baseDir + @"\FatCompressedOut";
             errorDir = baseDir + @"\Error";
+            audioNormalizeLogDir = baseDir + @"\AudioNormalizeLog";
 
             CleateDir(baseDir);
             CleateDir(inputDir);
             CleateDir(finishedOriginalDir);
             CleateDir(errorDir);
             CleateDir(FatCompressedOut);
+            if (isAudioNormalize)
+            {
+                CleateDir(audioNormalizeLogDir);
+            }
             ClearFile(batPath);
             ClearFile(bat2Path);
             if (isCutMode)
@@ -147,8 +161,9 @@ namespace EncodeAuto
 
                     arg = arg.Replace(@"%st", startTime);
                     arg = arg.Replace(@"%ed", endTime);
+                    arg = ApplyAudioNormalizeOption(arg, encoded);
 
-                    if (ErrorOutOn)
+                    if (ErrorOutOn && !HasOption(arg, "--log"))
                     {//エラーログ出力
                         arg = arg + @" --log-level error --log " + errorDir + @"\errorlog.txt";
                     }
@@ -261,8 +276,9 @@ namespace EncodeAuto
                 
                 arg = arg.Replace(@"%input", @"""" + after + @"""");
                 arg = arg.Replace(@"%out", @"""" + encoded + @"""");
+                arg = ApplyAudioNormalizeOption(arg, encoded);
                 
-                if (ErrorOutOn && (audioFile == ""))
+                if (ErrorOutOn && (audioFile == "") && !HasOption(arg, "--log"))
                 {//エラーログ出力
                     arg = arg + @" --log-level error --log " + errorDir + @"\errorlog.txt";
                 }
@@ -278,6 +294,157 @@ namespace EncodeAuto
             //プロンプトを一時停止
             if (Properties.Settings.Default.Pause) { AppendTextToFile(batPath, "PAUSE", "UTF-8"); }
 
+        }
+
+        private string ApplyAudioNormalizeOption(string arg, string encoded)
+        {
+            if (!isAudioNormalize || !IsSupportedAudioNormalizeCommand(arg))
+            {
+                return arg;
+            }
+
+            // 音量を変えるため、音声コピーを外して音声だけ再エンコードする
+            string normalizedArg = RemoveOption(arg, "--audio-copy");
+            normalizedArg = AddOptionIfMissing(normalizedArg, "--audio-codec", "aac");
+            normalizedArg = AddOptionIfMissing(normalizedArg, "--audio-bitrate", "192");
+            normalizedArg = AddOptionIfMissing(normalizedArg, "--audio-filter", AudioNormalizeFilter);
+            normalizedArg = AddAudioNormalizeLogOption(normalizedArg, encoded);
+            return normalizedArg;
+        }
+
+        private string AddAudioNormalizeLogOption(string arg, string encoded)
+        {
+            if (HasOption(arg, "--log"))
+            {
+                return arg;
+            }
+
+            // 音量調整時だけ、loudnorm の summary をファイル別ログに残す
+            string logPath = BuildAudioNormalizeLogPath(encoded);
+            string logOptions = @"--log-level info --log " + @"""" + logPath + @"""";
+            return InsertBeforeOutputOption(arg, logOptions);
+        }
+
+        private string BuildAudioNormalizeLogPath(string encoded)
+        {
+            string fileName = Path.GetFileNameWithoutExtension(encoded) + "_AudioNormalize.log";
+            return Path.Combine(audioNormalizeLogDir, fileName);
+        }
+
+        private void AddAudioNormalizeSummary(string org, string encoded)
+        {
+            try
+            {
+                if (!isAudioNormalize)
+                {
+                    return;
+                }
+
+                string logPath = BuildAudioNormalizeLogPath(encoded);
+                if (!File.Exists(logPath))
+                {
+                    return;
+                }
+
+                string logText = File.ReadAllText(logPath, new UTF8Encoding(false));
+                double? inputIntegrated = ExtractLoudnormValue(logText, "Input Integrated");
+                double? outputIntegrated = ExtractLoudnormValue(logText, "Output Integrated");
+                if (inputIntegrated is null)
+                {
+                    return;
+                }
+
+                // 実際の出力LUFSが取れない場合は、目標LUFSとの差分を目安として出す
+                double afterIntegrated = outputIntegrated ?? AudioNormalizeTargetIntegrated;
+                double adjustment = afterIntegrated - inputIntegrated.Value;
+                string signText = adjustment.ToString("+0.0;-0.0;0.0", CultureInfo.InvariantCulture);
+                string outputText = outputIntegrated?.ToString("0.0", CultureInfo.InvariantCulture) ?? "目標値";
+                string line = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)
+                    + "\t" + Path.GetFileName(org)
+                    + "\t約 " + signText + " dB"
+                    + "\t(" + inputIntegrated.Value.ToString("0.0", CultureInfo.InvariantCulture)
+                    + " LUFS -> " + outputText + " LUFS)"
+                    + "\tlog: " + logPath;
+
+                AppendAudioNormalizeSummaryLine(line);
+            }
+            catch
+            {
+                // 音量ログの要約に失敗しても、エンコード後処理は止めない
+            }
+        }
+
+        private double? ExtractLoudnormValue(string logText, string label)
+        {
+            Match match = Regex.Match(
+                logText,
+                Regex.Escape(label) + @":\s*([+-]?\d+(?:\.\d+)?)",
+                RegexOptions.IgnoreCase);
+            if (!match.Success)
+            {
+                return null;
+            }
+
+            if (double.TryParse(match.Groups[1].Value, NumberStyles.Float, CultureInfo.InvariantCulture, out double value))
+            {
+                return value;
+            }
+
+            return null;
+        }
+
+        private void AppendAudioNormalizeSummaryLine(string line)
+        {
+            string summaryPath = Path.Combine(audioNormalizeLogDir, "AudioNormalizeSummary.txt");
+            lock (AudioNormalizeSummaryLock)
+            {
+                if (!File.Exists(summaryPath) || new FileInfo(summaryPath).Length == 0)
+                {
+                    File.AppendAllText(summaryPath, "日時\tファイル\t音量調整量\tラウドネス\tログ\n", new UTF8Encoding(false));
+                }
+
+                File.AppendAllText(summaryPath, line + "\n", new UTF8Encoding(false));
+            }
+        }
+
+        private bool IsSupportedAudioNormalizeCommand(string arg)
+        {
+            // QSVEncC/NVEncC は同じ音声オプションで音量フィルタを使える
+            return arg.Contains("QSVEncC", StringComparison.OrdinalIgnoreCase)
+                || arg.Contains("NVEncC", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private string RemoveOption(string normalizedArg, string optionName)
+        {
+            string pattern = @"(^|\s)" + Regex.Escape(optionName) + @"(?:[=:]\S+|\s+(?!-)\S+)?(?=\s|$)";
+            return Regex.Replace(normalizedArg, pattern, " ", RegexOptions.IgnoreCase).Trim();
+        }
+
+        private string AddOptionIfMissing(string arg, string optionName, string optionValue)
+        {
+            if (HasOption(arg, optionName))
+            {
+                return arg;
+            }
+
+            return InsertBeforeOutputOption(arg, optionName + " " + optionValue);
+        }
+
+        private bool HasOption(string arg, string optionName)
+        {
+            string pattern = @"(^|\s)" + Regex.Escape(optionName) + @"(?=\s|=|$)";
+            return Regex.IsMatch(arg, pattern, RegexOptions.IgnoreCase);
+        }
+
+        private string InsertBeforeOutputOption(string arg, string optionText)
+        {
+            Match outputOption = Regex.Match(arg, @"\s(?=-o\b|--output\b)", RegexOptions.IgnoreCase);
+            if (outputOption.Success)
+            {
+                return arg.Insert(outputOption.Index, " " + optionText);
+            }
+
+            return arg + " " + optionText;
         }
 
 
@@ -360,6 +527,8 @@ namespace EncodeAuto
 
                 if (File.Exists(encord))
                 {
+                    AddAudioNormalizeSummary(org, encord);
+
                     //エンコード後のファイルがあれば元ファイルを処理済みフォルダへ
                     distenyOrg = finishedOriginalDir;
 
