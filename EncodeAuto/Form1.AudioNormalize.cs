@@ -78,25 +78,8 @@ namespace EncodeAuto
 
         private void EnsureAudioNormalizePresetLength()
         {
-            if (preset == null)
-            {
-                return;
-            }
-
-            int length = radioButtons.Count;
-            if (preset.audioNormalize != null && preset.audioNormalize.Length >= length)
-            {
-                return;
-            }
-
-            // 古いプリセットXMLを読み込んだ場合でも、新しい設定枠を用意する
-            bool[] audioNormalize = new bool[length];
-            if (preset.audioNormalize != null)
-            {
-                Array.Copy(preset.audioNormalize, audioNormalize, preset.audioNormalize.Length);
-            }
-
-            preset.audioNormalize = audioNormalize;
+            // 共通のプリセット拡張処理に任せて、追加項目だけ取り残されないようにする
+            EnsurePresetLength();
         }
     }
 }

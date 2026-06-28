@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
@@ -163,9 +163,9 @@ namespace EncodeAuto
                     arg = arg.Replace(@"%ed", endTime);
                     arg = ApplyAudioNormalizeOption(arg, encoded);
 
-                    if (ErrorOutOn && !HasOption(arg, "--log"))
+                    if (ErrorOutOn)
                     {//エラーログ出力
-                        arg = arg + @" --log-level error --log " + errorDir + @"\errorlog.txt";
+                        arg = AddErrorLogOption(arg);
                     }
 
                     startTime = endTime;
@@ -278,9 +278,9 @@ namespace EncodeAuto
                 arg = arg.Replace(@"%out", @"""" + encoded + @"""");
                 arg = ApplyAudioNormalizeOption(arg, encoded);
                 
-                if (ErrorOutOn && (audioFile == "") && !HasOption(arg, "--log"))
+                if (ErrorOutOn && (audioFile == ""))
                 {//エラーログ出力
-                    arg = arg + @" --log-level error --log " + errorDir + @"\errorlog.txt";
+                    arg = AddErrorLogOption(arg);
                 }
 
                 //1ファイル分の処理書き込み
@@ -412,6 +412,83 @@ namespace EncodeAuto
             // QSVEncC/NVEncC は同じ音声オプションで音量フィルタを使える
             return arg.Contains("QSVEncC", StringComparison.OrdinalIgnoreCase)
                 || arg.Contains("NVEncC", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private string AddErrorLogOption(string arg)
+        {
+            string logPath = Path.Combine(errorDir, "errorlog.txt");
+
+            if (IsFfmpegCommand(arg))
+            {
+                return AddFfmpegErrorLogOption(arg, logPath);
+            }
+
+            if (HasOption(arg, "--log"))
+            {
+                return arg;
+            }
+
+            // QSVEncC/NVEncC 系は専用のログオプションでエラーだけ残す
+            return arg + @" --log-level error --log " + QuoteCommandValue(logPath);
+        }
+
+        private bool IsFfmpegCommand(string arg)
+        {
+            // コマンド先頭がffmpegなら、ffmpeg用のログ指定へ切り替える
+            return Regex.IsMatch(
+                arg.TrimStart(),
+                @"^(""[^""]*ffmpeg(?:\.exe)?""|[^\s""]*ffmpeg(?:\.exe)?)(\s|$)",
+                RegexOptions.IgnoreCase);
+        }
+
+        private string AddFfmpegErrorLogOption(string arg, string logPath)
+        {
+            string result = arg;
+
+            if (!HasOption(result, "-hide_banner"))
+            {
+                result = InsertAfterCommandName(result, "-hide_banner");
+            }
+
+            if (!HasOption(result, "-loglevel") && !HasOption(result, "-v"))
+            {
+                result = InsertAfterCommandName(result, "-loglevel error");
+            }
+
+            if (!Regex.IsMatch(result, @"\s2>{1,2}", RegexOptions.IgnoreCase))
+            {
+                result += @" 2>> " + QuoteCommandValue(logPath);
+            }
+
+            return result;
+        }
+
+        private string InsertAfterCommandName(string arg, string optionText)
+        {
+            string trimmed = arg.TrimStart();
+            int startIndex = arg.Length - trimmed.Length;
+
+            if (trimmed.StartsWith("\""))
+            {
+                int endQuoteIndex = trimmed.IndexOf('"', 1);
+                if (endQuoteIndex >= 0)
+                {
+                    return arg.Insert(startIndex + endQuoteIndex + 1, " " + optionText);
+                }
+            }
+
+            Match commandName = Regex.Match(trimmed, @"^\S+");
+            if (commandName.Success)
+            {
+                return arg.Insert(startIndex + commandName.Length, " " + optionText);
+            }
+
+            return arg + " " + optionText;
+        }
+
+        private string QuoteCommandValue(string value)
+        {
+            return @"""" + value + @"""";
         }
 
         private string RemoveOption(string normalizedArg, string optionName)

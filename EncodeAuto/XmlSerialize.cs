@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,16 +10,18 @@ namespace EncodeAuto
     //XMLファイルに保存するオブジェクトのためのクラス
     public class PresetClass
     {
-        public string[] presetName = new string[12];
-        public string[] batPath = new string[12];
-        public string[] argment = new string[12];
-        public string[] safix = new string[12];
-        public string[] outDir = new string[12];
-        public bool[] afterOriginMove = new bool[12];
-        public bool[] pauseCMD = new bool[12];
-        public bool[] sameDirOutput = new bool[12];
-        public bool[] shortFileName = new bool[12];
-        public bool[] audioNormalize = new bool[12];
+        public const int PresetCount = 24;
+
+        public string[] presetName = new string[PresetCount];
+        public string[] batPath = new string[PresetCount];
+        public string[] argment = new string[PresetCount];
+        public string[] safix = new string[PresetCount];
+        public string[] outDir = new string[PresetCount];
+        public bool[] afterOriginMove = new bool[PresetCount];
+        public bool[] pauseCMD = new bool[PresetCount];
+        public bool[] sameDirOutput = new bool[PresetCount];
+        public bool[] shortFileName = new bool[PresetCount];
+        public bool[] audioNormalize = new bool[PresetCount];
     }
     internal class XmlSerialize
     {
