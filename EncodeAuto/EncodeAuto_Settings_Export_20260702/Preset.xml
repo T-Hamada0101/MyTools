@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PresetClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <presetName>
+    <string>Fire34</string>
+    <string>hevc34_ReFps</string>
+    <string>H264</string>
+    <string>拡張子</string>
+    <string>REC</string>
+    <string>1080p</string>
+    <string>hevc</string>
+    <string>maimai_1080</string>
+    <string>ASF</string>
+    <string>MP3 ffmpeg</string>
+    <string>maimai_hearf_FPS</string>
+    <string>DVD</string>
+    <string>明るさUP</string>
+    <string>10倍速</string>
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string>明るさUPNVEncC</string>
+    <string>明るさAVI</string>
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+  </presetName>
+  <batPath>
+    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
+    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
+    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
+    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
+    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
+    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
+    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
+    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
+    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
+    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
+    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
+    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
+    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
+    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
+    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+  </batPath>
+  <argment>
+    <string>NVEncC64.exe -i %input --cqp 34 --output-res -2x720 --audio-copy -o %out</string>
+    <string>NVEncC64.exe -i %input  -c hevc --cqp 34  --vpp-select-every 2  --output-res -2x720 --audio-copy -o %out</string>
+    <string>NVEncC64.exe -i %input -c h264 --preset quality --audio-copy -o %out</string>
+    <string>NVEncC64.exe -c:v copy -c:a copy -i  %input  -o %out</string>
+    <string>ffmpeg.exe -y -i %input -map 0 -c copy %out</string>
+    <string>NVEncC64.exe -i %input --cqp 22 --output-res -2x1080 --audio-copy -o %out</string>
+    <string>NVEncC64.exe -i %input -c hevc -cqp 22  --audio-copy -o %out</string>
+    <string>NVEncC64.exe -i %input -c h264 --cqp 24 --output-res -2x1080  --audio-copy -o %out</string>
+    <string>ffmpeg.exe -y -analyzeduration 100M -probesize 100M -i %input -map 0:v:0 -c:v copy -tag:v hvc1 -movflags +faststart %out</string>
+    <string>ffmpeg.exe -i %input  -ab 192k %out</string>
+    <string>NVEncC64.exe -i %input -c h264 --cqp 24 --output-res -2x1080  --vpp-select-every 2 --audio-copy -o %out</string>
+    <string>NVEncC64.exe -i %input  --vbr 2000 --output-res 720x-2 --audio-codec libmp3lame -o %out</string>
+    <string>ffmpeg -y -i %input -vf "eq=brightness=0.25:contrast=1.25:saturation=1.83" -c:v libx264 -preset medium -crf 20 -c:a copy %out</string>
+    <string>ffmpeg -y -i %input -vf "select='not(mod(n,10))',setpts=N/(30*TB)" -an -c:v libx264 -preset veryfast -crf 28 %out</string>
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string>NVEncC64.exe --avhw -i %input -c h264 --preset quality --cqp 26 --vpp-tweak brightness=0.18,contrast=1.25,saturation=1.83 --audio-copy -o %out</string>
+    <string>NVEncC64.exe --avsw -i %input --avsync forcecfr --fps 30 -c h264 --preset quality --cqp 26 --vpp-tweak brightness=0.18,contrast=1.25,saturation=1.83 --audio-codec aac --audio-bitrate 192 -o %out</string>
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+  </argment>
+  <safix>
+    <string>_cqp34.mp4</string>
+    <string>_reFps.mp4</string>
+    <string>_H264.mp4</string>
+    <string>_exc.mp4</string>
+    <string>.mp4</string>
+    <string>1090p.mp4</string>
+    <string>_hevc.mp4</string>
+    <string>_1080.mp4</string>
+    <string>.mp4</string>
+    <string>.mp3</string>
+    <string>_re.mp4</string>
+    <string>DVD.mp4</string>
+    <string>_bright.mp4</string>
+    <string>_x10check.mp4</string>
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string>_bright.mp4</string>
+    <string>_bright.mp4</string>
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+  </safix>
+  <outDir>
+    <string>H:\_EncodeOut</string>
+    <string>E:\_EncodeOut</string>
+    <string>H:\_EncodeOut</string>
+    <string>H:\_EncodeOut</string>
+    <string>H:\_EncodeOut</string>
+    <string>H:\_EncodeOut</string>
+    <string>H:\_EncodeOut</string>
+    <string>H:\_EncodeOut</string>
+    <string>H:\_EncodeOut</string>
+    <string>H:\_EncodeOut</string>
+    <string>H:\_EncodeOut</string>
+    <string>H:\_EncodeOut</string>
+    <string>H:\_EncodeOut</string>
+    <string>H:\_EncodeOut</string>
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string>H:\_EncodeOut</string>
+    <string>H:\_EncodeOut</string>
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+    <string xsi:nil="true" />
+  </outDir>
+  <afterOriginMove>
+    <boolean>true</boolean>
+    <boolean>true</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+  </afterOriginMove>
+  <pauseCMD>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+  </pauseCMD>
+  <sameDirOutput>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>true</boolean>
+    <boolean>true</boolean>
+    <boolean>true</boolean>
+    <boolean>true</boolean>
+    <boolean>true</boolean>
+    <boolean>true</boolean>
+    <boolean>true</boolean>
+    <boolean>true</boolean>
+    <boolean>true</boolean>
+    <boolean>true</boolean>
+    <boolean>true</boolean>
+    <boolean>true</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>true</boolean>
+    <boolean>true</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+  </sameDirOutput>
+  <shortFileName>
+    <boolean>true</boolean>
+    <boolean>true</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+  </shortFileName>
+  <audioNormalize>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+    <boolean>false</boolean>
+  </audioNormalize>
+</PresetClass>
