@@ -27,26 +27,26 @@
     <string xsi:nil="true" />
   </presetName>
   <batPath>
-    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
-    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
-    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
-    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
-    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
-    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
-    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
-    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
-    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
-    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
-    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
-    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
-    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
-    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
+    <string>D:\otherProgram\EncodeAuto\EndodeAuto.bat</string>
+    <string>D:\otherProgram\EncodeAuto\EndodeAuto.bat</string>
+    <string>D:\otherProgram\EncodeAuto\EndodeAuto.bat</string>
+    <string>D:\otherProgram\EncodeAuto\EndodeAuto.bat</string>
+    <string>D:\otherProgram\EncodeAuto\EndodeAuto.bat</string>
+    <string>D:\otherProgram\EncodeAuto\EndodeAuto.bat</string>
+    <string>D:\otherProgram\EncodeAuto\EndodeAuto.bat</string>
+    <string>D:\otherProgram\EncodeAuto\EndodeAuto.bat</string>
+    <string>D:\otherProgram\EncodeAuto\EndodeAuto.bat</string>
+    <string>D:\otherProgram\EncodeAuto\EndodeAuto.bat</string>
+    <string>D:\otherProgram\EncodeAuto\EndodeAuto.bat</string>
+    <string>D:\otherProgram\EncodeAuto\EndodeAuto.bat</string>
+    <string>D:\otherProgram\EncodeAuto\EndodeAuto.bat</string>
+    <string>D:\otherProgram\EncodeAuto\EndodeAuto.bat</string>
     <string xsi:nil="true" />
     <string xsi:nil="true" />
     <string xsi:nil="true" />
     <string xsi:nil="true" />
-    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
-    <string>H:\MyToolsRelease\NVEncC_7.31_x64\EndodeAuto.bat</string>
+    <string>D:\otherProgram\EncodeAuto\EndodeAuto.bat</string>
+    <string>D:\otherProgram\EncodeAuto\EndodeAuto.bat</string>
     <string xsi:nil="true" />
     <string xsi:nil="true" />
     <string xsi:nil="true" />
@@ -105,26 +105,26 @@
     <string xsi:nil="true" />
   </safix>
   <outDir>
-    <string>H:\_EncodeOut</string>
-    <string>E:\_EncodeOut</string>
-    <string>H:\_EncodeOut</string>
-    <string>H:\_EncodeOut</string>
-    <string>H:\_EncodeOut</string>
-    <string>H:\_EncodeOut</string>
-    <string>H:\_EncodeOut</string>
-    <string>H:\_EncodeOut</string>
-    <string>H:\_EncodeOut</string>
-    <string>H:\_EncodeOut</string>
-    <string>H:\_EncodeOut</string>
-    <string>H:\_EncodeOut</string>
-    <string>H:\_EncodeOut</string>
-    <string>H:\_EncodeOut</string>
+    <string>D:\_EncodeOut</string>
+    <string>D:\_EncodeOut</string>
+    <string>D:\_EncodeOut</string>
+    <string>D:\_EncodeOut</string>
+    <string>D:\_EncodeOut</string>
+    <string>D:\_EncodeOut</string>
+    <string>D:\_EncodeOut</string>
+    <string>D:\_EncodeOut</string>
+    <string>D:\_EncodeOut</string>
+    <string>D:\_EncodeOut</string>
+    <string>D:\_EncodeOut</string>
+    <string>D:\_EncodeOut</string>
+    <string>D:\_EncodeOut</string>
+    <string>D:\_EncodeOut</string>
     <string xsi:nil="true" />
     <string xsi:nil="true" />
     <string xsi:nil="true" />
     <string xsi:nil="true" />
-    <string>H:\_EncodeOut</string>
-    <string>H:\_EncodeOut</string>
+    <string>D:\_EncodeOut</string>
+    <string>D:\_EncodeOut</string>
     <string xsi:nil="true" />
     <string xsi:nil="true" />
     <string xsi:nil="true" />

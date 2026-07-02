@@ -25,7 +25,7 @@ namespace EncodeAuto.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\ProgramOther\\QSVEncC\\QSVEnc_7.24\\EndodeAuto.bat")]
+        [global::System.Configuration.DefaultSettingValueAttribute("%LOCALAPPDATA%\\EncodeAuto\\EndodeAuto.bat")]
         public string ExePath {
             get {
                 return ((string)(this["ExePath"]));
@@ -37,8 +37,7 @@ namespace EncodeAuto.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("QSVEncC64.exe --avsw -i %input --cqp 34  --quality best -c h264 --audio-copy -o %" +
-            "out34.mp4")]
+        [global::System.Configuration.DefaultSettingValueAttribute("ffmpeg.exe -i %input -c:v libx264 -crf 23 -c:a aac -b:a 192k %out")]
         public string Arguments {
             get {
                 return ((string)(this["Arguments"]));
@@ -50,7 +49,7 @@ namespace EncodeAuto.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(".mp4")]
+        [global::System.Configuration.DefaultSettingValueAttribute("_enc.mp4")]
         public string Safix {
             get {
                 return ((string)(this["Safix"]));
@@ -62,7 +61,7 @@ namespace EncodeAuto.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\_EncodeOut")]
+        [global::System.Configuration.DefaultSettingValueAttribute("%USERPROFILE%\\Videos\\EncodeAuto")]
         public string OutputDir {
             get {
                 return ((string)(this["OutputDir"]));

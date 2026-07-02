@@ -58,16 +58,17 @@ namespace EncodeAuto
         public string errorDir;
         public EncodeDeta(int sessionNum,List<string> _list, bool IsErrorLogOut = false, bool isMergeMode = false, bool isCutMode = false,List<string> cutTimes = null)
         {
-            batPath = Properties.Settings.Default.ExePath;
-            batPath = batPath.Replace(".bat", sessionNum.ToString() + ".bat");
-            arguments = Properties.Settings.Default.Arguments;
+            batPath = RuntimePathResolver.BuildSessionBatchPath(Properties.Settings.Default.ExePath, sessionNum);
+            arguments = RuntimePathResolver.ResolveCommandLine(Properties.Settings.Default.Arguments);
             safix = Properties.Settings.Default.Safix;
             isENcodeSameDir = Properties.Settings.Default.SameDirOutput;
             isMoveOrg = Properties.Settings.Default.MoveComp;
             isAudioNormalize = Properties.Settings.Default.AudioNormalize;
-            baseDir = Properties.Settings.Default.OutputDir;
+            baseDir = RuntimePathResolver.ResolveOutputDir(Properties.Settings.Default.OutputDir);
 
-            bat2Path = batPath.Replace(".bat", "2.bat");
+            bat2Path = Path.Combine(
+                Path.GetDirectoryName(batPath) ?? string.Empty,
+                Path.GetFileNameWithoutExtension(batPath) + "2.bat");
             inputDir = baseDir + @"\Input";
             finishedOriginalDir = baseDir + @"\FinishedOriginal";
             CompressedOutDir = baseDir + @"\CompressedOut";
@@ -261,7 +262,7 @@ namespace EncodeAuto
                     //パスにスペースが含まれている場合、コマンドライン引数として正しく解釈されるように、
                     //パスを二重引用符で囲む必要があります。
 
-                    arg = @"ffmpeg -i %input -i %audio -c copy -map 0:0 -map 1:1 %out";
+                    arg = RuntimePathResolver.ResolveCommandLine(@"ffmpeg -i %input -i %audio -c copy -map 0:0 -map 1:1 %out");
 
                     // 置き換え時にパスを二重引用符で囲む
                     arg = arg.Replace("%audio", "\"" + audioFile + "\"");

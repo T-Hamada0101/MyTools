@@ -36,15 +36,16 @@ namespace EncodeAuto
             {
                 preset = loadedPreset;
                 EnsurePresetLength();
+                FillMissingPresetDefaults();
             }
             else
             {   //初回起動時
                 preset = new PresetClass();
                 Properties.Settings.Default.Reload();
-                BatPath.Text = Properties.Settings.Default.ExePath;
-                Arguments.Text = Properties.Settings.Default.Arguments;
-                Safix.Text = Properties.Settings.Default.Safix;
-                Dir.Text = Properties.Settings.Default.OutputDir;
+                BatPath.Text = RuntimePathResolver.GetInitialBatchPath();
+                Arguments.Text = RuntimePathResolver.GetInitialArguments();
+                Safix.Text = RuntimePathResolver.GetInitialSafix();
+                Dir.Text = RuntimePathResolver.GetInitialOutputDir();
                 CK_MoveComp.Checked = Properties.Settings.Default.MoveComp;
                 CK_PauseCMD.Checked = Properties.Settings.Default.Pause;
                 CK_OutSameDir.Checked = Properties.Settings.Default.SameDirOutput;
@@ -127,6 +128,37 @@ namespace EncodeAuto
             preset.sameDirOutput = ResizeBoolArray(preset.sameDirOutput, length);
             preset.shortFileName = ResizeBoolArray(preset.shortFileName, length);
             preset.audioNormalize = ResizeBoolArray(preset.audioNormalize, length);
+        }
+
+        private void FillMissingPresetDefaults()
+        {
+            if (preset == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < preset.presetName.Length; i++)
+            {
+                if (string.IsNullOrWhiteSpace(preset.batPath[i]))
+                {
+                    preset.batPath[i] = RuntimePathResolver.GetInitialBatchPath();
+                }
+
+                if (string.IsNullOrWhiteSpace(preset.argment[i]))
+                {
+                    preset.argment[i] = RuntimePathResolver.GetInitialArguments();
+                }
+
+                if (string.IsNullOrWhiteSpace(preset.safix[i]))
+                {
+                    preset.safix[i] = RuntimePathResolver.GetInitialSafix();
+                }
+
+                if (string.IsNullOrWhiteSpace(preset.outDir[i]))
+                {
+                    preset.outDir[i] = RuntimePathResolver.GetInitialOutputDir();
+                }
+            }
         }
 
         private string[] ResizeStringArray(string[]? values, int length)
